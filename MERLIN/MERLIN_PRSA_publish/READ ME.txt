@@ -1,0 +1,55 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                  MERLIN                               %%
+%                         Ke Liu, Glaucio H. Paulino                      %
+% Ref: 1. K. Liu, G. H. Paulino (2017). 'Nonlinear mechanics of non-rigid %
+%      origami - An efficient computational approach.' Proceedings of     %
+%      the Royal Society A.                                               %
+%      2. K. Liu, G. H. Paulino (2016). 'MERLIN: A MATLAB implementation  %
+%      to capture highly nonlinear behavior of non-rigid origami.'        %
+%      Proceedings of IASS Annual Symposium 2016.                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+INSTRUCTIONS:
+
+1. The MERLIN software requires MATLAB version 2015a or later.
+
+2. Use script to run the code. Several examples are given:
+    a. Miura_Folding.m  
+    b. Miura_Bending.m
+    c. Miuta_Bistable.m
+    d. ArcMiura_Folding.m
+    e. Eggbox_Folding.m
+    f. Eggbox_Bending.m
+    g. Kresling_Folding.m
+
+3. Constitutive model for the bars is specified by function 'BarMater'. 
+   The input parameters must be G-L strain (i.e. Ex); 
+   output quantities are: Sx-2nd PK stress; Et-tangent modulus; Wb-stored energy.
+   
+   The default implementation is Ogden material.
+   To modify the Ogden model parameters alpha_1 and alpha_2 (see Ref paper 1), go to function 'Ogden'.
+   To change the constitutive model for bar elements, change function 'BarMater'.
+
+4. Constitutive model for the rotational springs is specified by function 'RotSpring'. 
+   The input parameters are: he-current rotation angle; h0-neutral (initial) angle; kpi-rotational stiffness; L0-(initial) length of a rotational spring; 
+   limlft: left limit of linear rottaional stiffness (theta_1); limrht: right limit of linear rottaional stiffness (theta_2).
+   output quantities are: Rspr-resistant moment (M); Kspr-tangent rotational stiffness (k); Espr-stored energy (phi).
+   
+   The default implementation is explained in Ref 1.
+   To change the constitutive model for bar elements, change function 'RotSpring'.
+
+5. The function 'PrepareData' wraps the input data into 3 outputs: 'truss', 'angles', 'F'. 
+   'truss': a data structure contains info about bar elements;
+   'angles': a data structure contains info about rotational spring elements;
+   'F': the applied force vector in global coordinate (of DOF). 
+
+6. The function 'PathAnalysis' is the nonlinear solution solver which basically implements the algorithm 'MGDCM' (see Ref 1).
+   The actual implemented algorithm includes an automatic adjustment of constraint radius, which is an improvement of the basic 'MGDCM' algorithm.
+   In each increment, when the number of iterations exceeds 15, the initial load factor is decreased by half, resulting in a more conservative load step for next increment; 
+   when the number of iterations is below 3, the initial load factor increases by a factor of 1.5, yielding a more aggressive load step for next increment.
+
+   There are two versions of the function that assembles the global stiffness matrix:
+   'GlobalK_edu_ver': element-by-element assembly process, direct implementation of the expressions in Ref 1;
+   'GlobalK_fast_ver': vectorized assembly process, optimized for computational speed (on MATLAB).
+   
+   Output data includes: 'U_his', 'LF_his', and 'Data'. 'Data' records 'Exbar', 'FdAngle', 'BdAngle' (see Ref 2).

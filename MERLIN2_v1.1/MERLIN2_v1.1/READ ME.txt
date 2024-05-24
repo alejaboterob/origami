@@ -1,0 +1,4 @@
+Description and instruction about the MERLIN2 software can be found in:
+K. Liu, G. H. Paulino (2018). 'Highly efficient nonlinear structural analysis of origami assemblages using the MERLIN2 software.' Origami^7.
+
+Please contact me at ke.liu@gatech.edu if you find any bugs or need support using MERLIN2. 
