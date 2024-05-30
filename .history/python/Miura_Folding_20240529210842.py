@@ -84,10 +84,10 @@ VisualFold(U_his[:, :interv:endicrm], truss, angles, 'none', 'miura5x5fold', 0.0
 # If do not need load-displacement diagram:
 # VisualFold(U_his[:, :interv:endicrm], truss, angles, 'none', 'miura5x5fold', 0.0001)
 
-# Plot stored energy vs. pseudo time
-# Red line is the total profile. Between red and cyan is the folding
-# energy. Between cyan and magenta is the portion of energy for bending. 
-# Below magenta is the stretching energy of bars.
+Plot stored energy vs. pseudo time
+Red line is the total profile. Between red and cyan is the folding
+energy. Between cyan and magenta is the portion of energy for bending. 
+Below magenta is the stretching energy of bars.
 STAT = PostProcess(Data, truss, angles)
 plt.figure()
 plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.PE.strain, 'r-', linewidth=2)  # Total profile

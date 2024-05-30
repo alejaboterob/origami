@@ -22,7 +22,7 @@ def EnhancedLinear(he, h0, kpi, L0, limlft, limrht):
     Mind = ~(Lind | Rind)
     if np.any(Lind):
     # Ensure shapes match; reshape should align with Rspr[Lind]'s 1D expected shape
-        Rspr[Lind] = kpi[0,Lind] * (np.real(limlft - h0[Lind].reshape(-1))) + \
+        Rspr[Lind] = kpi[L0,ind] * (np.real(limlft - h0[Lind].reshape(-1))) + \
                  kpi[0,Lind] * np.tan(partl / 2 * (he[Lind].reshape(-1) - limlft)) / (partl / 2)
         Kspr[Lind] = kpi[0,Lind]*sec(partl/2*(he[Lind]-limlft))**2
 
