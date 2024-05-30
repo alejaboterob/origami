@@ -39,20 +39,9 @@ def PathAnalysis(truss, angles, F, b_lambda, MaxIcr):
 
             IF, K = GlobalK_edu_ver(U, Node, truss, angles)
 
-            # # IF, K = GlobalK_edu_ver(U, Node, truss, angles)
-            # data = loadmat('data.mat')
-
-            # # The variables are stored in a dictionary
-            # # Access the variables using their MATLAB names
-            # IF = data['IF']
-            # K = data['K']
-
 
             R = lmd * F - IF.T
             MRS = np.column_stack((F, R.T))
-
-     
-
 
             MUL[FreeDofs, :] = solve(K[FreeDofs, :][:, FreeDofs].A, MRS[FreeDofs, :])
             dUp = MUL[:, 0]
