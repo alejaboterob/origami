@@ -59,9 +59,9 @@ Supp = np.array([[1, 0, 1, 0],
                  *zip(leftz, np.zeros_like(leftz), np.zeros_like(leftz), np.ones_like(leftz)),
                  *zip(rightz, np.zeros_like(rightz), np.zeros_like(rightz), np.ones_like(rightz))])
 
-indp = np.arange(0, (sec_vert * 2 + 1)) + (sec_vert * 2 + 1) * (sec_hor * 2)+1
+indp = np.arange(0, (sec_vert * 2 + 1)) + (sec_vert * 2 + 1) * (sec_hor * 2)+1   # Revisar -1 
 ff = -np.ones(len(indp))
-Load = np.column_stack((indp-1, ff, np.zeros_like(indp), np.zeros_like(indp)))
+Load = np.column_stack((indp, ff, np.zeros_like(indp), np.zeros_like(indp)))
 indp = Load[:, 0]
 
 # Perform analysis
@@ -115,4 +115,6 @@ plt.show()
 # }
 # # Save the variables to a .mat file
 # savemat('variables.mat', variables)
+
+
 

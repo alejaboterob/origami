@@ -70,6 +70,31 @@ def GlobalK_edu_ver(Ui, Node, truss, angles):
     K = Kb + Kbd + Kfd
     K = (K + K.T) / 2
 
+# from scipy.io import savemat
+# variables = {
+#     'Kbd2': Kbd,
+#     'kentry2': kentry,
+#     'indi2': indi,
+#     'indj2': indj,
+
+# }
+# # Save the variables to a .mat file
+# savemat('Kbd.mat', variables)
+
+
+# from scipy.io import savemat
+# variables = {
+#     'Kb2': Kb,
+#     'Kbd2': Kbd,
+#     'Kfd2': Kfd,
+#     'IFb2': IFb,
+#     'IFp2': IFp,
+#     'IF2': IF,
+#     'K2': K,
+# }
+# # Save the variables to a .mat file
+# savemat('variables.mat', variables)
+
     return IF, K
 
 

@@ -43,7 +43,7 @@ def PathAnalysis(truss, angles, F, b_lambda, MaxIcr):
             R = lmd * F - IF.T
             MRS = np.column_stack((F, R.T))
 
-            MUL[FreeDofs, :] = solve(K[FreeDofs, :][:, FreeDofs].A, MRS[FreeDofs, :])
+            MUL[FreeDofs, :] = solve(K[np.ix_(FreeDofs, FreeDofs)].A, MRS[FreeDofs, :])
             dUp = MUL[:, 0]
             dUr = MUL[:, 1]
             if itera == 1:
