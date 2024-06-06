@@ -11,7 +11,7 @@ def PathAnalysis(truss, angles, F, b_lambda, MaxIcr):
     tol = 1e-6
     Maxitera = 50
     Node = truss['Node']
-    AllDofs = np.arange(1, 3 * Node.shape[0])  # sin +1 igual a matlab 
+    AllDofs = np.arange(0, 3 * Node.shape[0])  # sin +1 igual a matlab 
     U = truss['U0']
     Uhis = np.zeros((3 * Node.shape[0], MaxIcr))
     Data = {}
@@ -48,7 +48,12 @@ def PathAnalysis(truss, angles, F, b_lambda, MaxIcr):
             dUr = MUL[:, 1]
             if itera == 1:
                 dUr = np.zeros_like(dUr)
-            dlmd = nlsmgd(icrm, itera, dUp, dUr, b_lambda)
+                dupc12 = []
+                numgsp = []
+                dupp1 = []
+                sinal = []
+
+            dlmd, dupc12, numgsp, dupp1, sinal = nlsmgd(icrm, itera, dUp, dUr, b_lambda,dupc12, numgsp, dupp1, sinal)
             dUt = dlmd * dUp + dUr
             U = U + dUt
             err = np.linalg.norm(dUt[FreeDofs])

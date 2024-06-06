@@ -62,7 +62,7 @@ def FoldKe(Cood, List, kpi, h0=None, L0=None, CM=None):
         dT1jj = 1 / np.dot(rkj.T, rkj) * ((-1 + 2 * np.dot(rij.T, rkj) / np.dot(rkj.T, rkj)) * rkj - rij)
         dT2jj = 1 / np.dot(rkj.T, rkj) * (2 * np.dot(rkl.T, rkj) / np.dot(rkj.T, rkj) * rkj - rkl)
         djj = np.outer(di,dT1jj) + (np.dot(rij.T, rkj) / np.dot(rkj.T, rkj) - 1) * dij - \
-            (np.outer(di,dT2jj) + np.dot(rkl.T, rkj) / np.dot(rkj.T, rkj) * dlj)
+            (np.outer(dl,dT2jj) + np.dot(rkl.T, rkj) / np.dot(rkj.T, rkj) * dlj)
 
         dT1jk = 1 / np.dot(rkj.T, rkj) * (-2 * np.dot(rij.T, rkj) / np.dot(rkj.T, rkj) * rkj + rij)
         dT2jk = 1 / np.dot(rkj.T, rkj) * ((1 - 2 * np.dot(rkl.T, rkj) / np.dot(rkj.T, rkj)) * rkj + rkl)
@@ -81,6 +81,6 @@ def FoldKe(Cood, List, kpi, h0=None, L0=None, CM=None):
             [dlj, dlk, dil.T, dll]
         ])
 
-        Khe = (Kspr * (np.outer(Jhe.T,Jhe)) + Rspr * Hp)
+        Khe = (Kspr * (np.outer(Jhe.flatten(),Jhe.flatten())) + Rspr * Hp)
 
     return he, Rhe, Khe

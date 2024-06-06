@@ -8,19 +8,12 @@ def BarKe(u, B, L, CM, A):
     Sx, Et, Wb = CM(Ex)
     Fx = Sx * A
 
-    if len(np.shape(Fx)) > 1:  # Check if Fx is a matrix
-        Fx = np.squeeze(Fx)
-    if len(np.shape(B)) > 1:  # Check if B is a matrix
-        Rbe = np.dot(Fx, (B.A + Du / L + Du / L))
-    else:
-        Rbe = Fx * (B.T + Du / L)
-    if len(np.shape(B)) > 1:  # Check if B is a matrix
-        Kel = np.dot(B.T, B)
-    else:
-        Kel = np.dot(B, B)
+    Rbe = np.dot(Fx, (B.A + Du / L))
+
+    Kel = np.dot(B.T, B)
     Kg = Fx / L * np.block([[np.eye(3), -np.eye(3)], [-np.eye(3), np.eye(3)]])
-    K1 = ((Du*B.A) + (Du*B.A).T) / L
-    K2 = (Du[:, np.newaxis].dot(Du[np.newaxis, :])) / L**2
+    K1 = ((Du*B.A.T) + (Du*B.A.T).T) / L
+    K2 = (np.outer(Du, Du.T)) / L**2
     Kbe = (Et * A / L)[0] * (Kel + K1 + K2) + Kg
     return Ex, Rbe, Kbe
     

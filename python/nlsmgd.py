@@ -1,11 +1,9 @@
 import numpy as np
 
-def nlsmgd(step, ite, dup, dur, cmp):
+def nlsmgd(step, ite, dup, dur, cmp, dupc1, numgsp, dupp1, sinal):
     """
     Modified generalized displacement control method.
     """
-    global dupp1, sinal
-
     if step == 1 and ite == 1:
         sinal = 1
         dupp1 = dup
@@ -13,8 +11,6 @@ def nlsmgd(step, ite, dup, dur, cmp):
     if ite == 1:
         sinal = np.sign(np.dot(dupp1, dup)) * sinal
         dupp1 = dup
-
-    global dupc1, numgsp
 
     if ite == 1:
         if step == 1:
@@ -27,6 +23,5 @@ def nlsmgd(step, ite, dup, dur, cmp):
             dupc1 = dup
     else:
         dl = -np.dot(dupc1, dur) / np.dot(dupc1, dup)
-
-    return dl
+    return dl, dupc1, numgsp, dupp1, sinal
 

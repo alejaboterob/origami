@@ -7,8 +7,10 @@ def findfdbd(Panel, bend):
     # triangularization
     Panelsize = [len(panel) for panel in Panel]
     Ptri = [Panel[i] for i in range(len(Panelsize)) if Panelsize[i] == 3]
+
     # Triglraw = np.concatenate((bend[:,[0,1,2]], bend[:,[0,1,3]], np.stack(Ptri, axis=0)), axis=0)
-    Triglraw = np.concatenate((bend[:,[0,1,2]], bend[:,[0,1,3]]), axis=0)
+
+    Triglraw = np.concatenate((bend[:,[0,1,2]], bend[:,[0,1,3]], np.array(Ptri)), axis=0)
     Triglraw = np.sort(Triglraw, axis=1)
     Trigl = np.unique(Triglraw, axis=0)
     

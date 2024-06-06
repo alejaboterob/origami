@@ -17,7 +17,7 @@ def PrepareData(Node, Panel, Supp, Load, BarCM, RotSpring, kpf, kpb, Abar):
     if Supp.shape[0] == 0:
         rs = []
     else:
-        rs = np.hstack([Supp[:, 0:1]*3-3, Supp[:, 0:1]*3-2, Supp[:, 0:1]*3-1]).flatten()
+        rs = np.hstack([Supp[:, 0:1]*3, Supp[:, 0:1]*3+1, Supp[:, 0:1]*3+2]).flatten()
         rs = np.vstack([rs, Supp[:, 1:].flatten()])
         rs = rs[:,rs[1,:] != 0][0]
 

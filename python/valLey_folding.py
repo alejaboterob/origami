@@ -40,9 +40,9 @@ RotSpring = lambda he, h0, kpi, L0: EnhancedLinear(he, h0, kpi, L0, limlft, limr
 
 
 # Set up boundary conditions
-Supp = np.array([[1, 1, 1, 1],
-    [2, 0, 1, 1],
-    [4, 1, 0, 1] ])
+Supp = np.array([[0, 1, 1, 1],
+    [1, 0, 1, 1],
+    [3, 1, 0, 1] ])
 
 indp = [2]
 ff = np.ones(len(indp))
@@ -55,8 +55,40 @@ truss['U0'] = np.zeros(3 * truss['Node'].shape[0])
 
 U_his, LF_his, Data = PathAnalysis(truss, angles, F, blam, MaxIcr)
 U_his = np.real(U_his)
-LF_his = np.real(LF_his)
+LF_his = np.real(LF_his) 
 
-print(truss)
-print(angles)
-print(F)
+
+
+# from scipy.io import savemat
+# variables = {
+#     'U_his2': U_his,
+#     'LF_his2': LF_his,
+#     'Data2': Data
+
+# }
+# # Save the variables to a .mat file
+# savemat('variables.mat', variables)
+
+
+# Visualize simulation
+instdof = -(indp[0] * 3 - 2)
+interv = 0
+endicrm = U_his.shape[1]
+VisualFold(U_his, truss, angles, 'none', 'valley_folding', 0.05, LF_his, instdof, [-np.inf, np.inf, -np.inf, np.inf])
+ 
+# If do not need load-displacement diagram:
+# VisualFold(U_his[:, :interv:endicrm], truss, angles, 'none', 'miura5x5fold', 0.0001)
+
+# Plot stored energy vs. pseudo time
+# Red line is the total profile.  Between red and cyan is the folding
+# energy. Between cyan and magenta is the portion of energy for bending. 
+# Below magenta is the stretching energy of bars.
+# STAT = PostProcess(Data, truss, angles)
+# plt.figure()
+# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.PE.strain, 'r-', linewidth=2)  # Total profile
+# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.bend.PE + STAT.bar.PE, 'c-')  # Folding energy
+# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.bar.PE, 'm-')  # Stretching energy of bars
+# plt.xlabel('Increment Number (Pseudo-time)', fontsize=14)
+# plt.ylabel('Stored Energy', fontsize=14)
+# plt.grid(True)
+# plt.show()

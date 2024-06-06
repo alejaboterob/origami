@@ -28,6 +28,19 @@ def GlobalK_edu_ver(Ui, Node, truss, angles):
 
     Kb = csr_matrix((kentry, (indi, indj)), shape=(3*Nn, 3*Nn), dtype=np.float64)
 
+    # from scipy.io import savemat
+    # variables = {
+    #     'Kb2': Kb,	
+    #     'IFb2': IFb,
+    #     'kentry2': kentry,
+    #     'indi2': indi,	
+    #     'indj2': indj,
+    #     'Rbe2': Rbe,
+    #     'Kbe2': Kbe,
+    # }
+    # # Save the variables to a .mat file
+    # savemat('variables.mat', variables)
+
     indi = np.zeros(144*angles['bend'].shape[0])
     indj = indi.copy()
     kentry = indi.copy()
@@ -36,7 +49,7 @@ def GlobalK_edu_ver(Ui, Node, truss, angles):
         eDof = np.array([3*angles['bend'][d_el, :], 3*angles['bend'][d_el, :]+1, 3*angles['bend'][d_el, :]+2]).T.ravel()
         bend = angles['bend'][d_el, :]
         _, Rpe, Kpe = FoldKe(Nodenw, bend, angles['kpb'], angles['pb0'][d_el], Lbend[d_el], angles['CM'])
-        IFb[eDof, :] = (IFb[eDof, :].T + Rpe).T
+        IFp[eDof, :] = (IFp[eDof, :].T + Rpe).T
         I = np.repeat(eDof, 12).reshape(12, 12).T
         J = I.copy().T
         indi[144*d_el:144*(d_el+1)] = I.ravel()
@@ -44,19 +57,17 @@ def GlobalK_edu_ver(Ui, Node, truss, angles):
         kentry[144*d_el:144*(d_el+1)] = Kpe.ravel()
 
     Kbd = csr_matrix((kentry, (indi, indj)), shape=(3*Nn, 3*Nn), dtype=np.float64)  
-    if Kbd.size == 0:
-        Kbd = np.zeros((3*Nn, 3*Nn))
 
     indi = np.zeros(144*angles['fold'].shape[0])
     indj = indi.copy()
     kentry = indi.copy()
-    Lfold = truss['L'][angles['bend'].shape[0]:]
+    Lfold = truss['L'][angles['bend'].shape[0]]
     for fel in range(angles['fold'].shape[0]):
         eDof = np.array([3*angles['fold'][fel, :], 3*angles['fold'][fel, :]+1, 3*angles['fold'][fel, :]+2]).T.ravel()
         fold = angles['fold'][fel, :]
-        _, Rpe, Kpe = FoldKe(Nodenw, fold, angles['kpf'], angles['pf0'][fel], Lfold[fel], angles['CM'])
+        _, Rpe, Kpe = FoldKe(Nodenw, fold, angles['kpf'][0], angles['pf0'][fel][0], Lfold, angles['CM'])   # Lfold[fel]
         
-        IFb[eDof, :] = (IFb[eDof, :].T + Rpe).T
+        IFp[eDof, :] = (IFp[eDof, :].T + Rpe).T
 
         I = np.repeat(eDof, 12).reshape(12, 12).T
         J = I.copy().T

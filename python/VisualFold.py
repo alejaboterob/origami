@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, writers
 from PIL import Image
 from PlotOri import PlotOri
+from plot_ori_panels import plot_panels
+import time
 
 def VisualFold(U_his, truss, angles, recordtype, filename, pausetime, LF_his=None, instdof=None, axislim=None):
     """
@@ -26,57 +28,69 @@ def VisualFold(U_his, truss, angles, recordtype, filename, pausetime, LF_his=Non
     if LF_his is not None and len(LF_his.shape) > 1:
         LF_his = np.sum(LF_his, axis=1)
 
-    if recordtype == 'video':
-        plt.rcParams['animation.ffmpeg_path'] = '/path/to/ffmpeg'
-        writer = writers['ffmpeg'](fps=1/pausetime)
-        fig = plt.figure('units', 'pixels')
-        fig.set_facecolor('w')
-    elif recordtype == 'imggif':
-        filename = f"{filename}.gif"
-        fig = plt.figure('units', 'pixels')
-        fig.set_facecolor('w')
-    else:
-        print('Not recording')
-        fig = plt.figure()
-        # fig = plt.figure('units', 'pixels')
-        # fig.set_facecolor('w')
+    # if recordtype == 'video':
+    #     plt.rcParams['animation.ffmpeg_path'] = '/path/to/ffmpeg'
+    #     writer = writers['ffmpeg'](fps=1/pausetime)
+    #     fig = plt.figure('units', 'pixels')
+    #     fig.set_facecolor('w')
+    # elif recordtype == 'imggif':
+    #     filename = f"{filename}.gif"
+    #     fig = plt.figure('units', 'pixels')
+    #     fig.set_facecolor('w')
+    # else:
+    #     print('Not recording')
+    #     fig = plt.figure()
+    #     # fig = plt.figure('units', 'pixels')
+    #     # fig.set_facecolor('w')
 
-    # plt.ion()
-    for i in range(U_his.shape[1]):
-        U = U_his[:, i]
-        plt.clf()
+    plt.ion()
+    # plt.clf()
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+  
+    for i in range(U_his.shape[0]):
+        U = U_his[:,i]
         # plt.view(35, 30)
         Nodew = Node.copy()
         Nodew[:, 0] = Node[:, 0] + U[::3]
         Nodew[:, 1] = Node[:, 1] + U[1::3]
         Nodew[:, 2] = Node[:, 2] + U[2::3]
+        # plt.clf()
+        ax = plot_panels(Node, Panel, ax)
+        plt.draw()
+        plt.pause(0.5)
+        ax = plot_panels(Nodew, Panel, ax)
+        plt.draw()
+        plt.pause(0.5)
 
-        PlotOri(Node, Panel, Trigl, '-', 0.3, 'none')
-        PlotOri(Nodew, Panel, Trigl)
-        plt.axis('equal')
-        plt.axis('off')
-        # plt.light()
-        plt.pause(pausetime)
 
-        if recordtype == 'imggif':
-            frame = cv2.VideoCapture(f2).read()[1]
-            im = Image.fromarray(frame)
-            imind, cm = im.convert('P', palette=Image.ADAPTIVE, colors=256).getpalette()
-            if i == 1:
-                im.save(filename, 'GIF', save_all=True, append_images=[], duration=0, loop=0)
-            else:
-                im.save(filename, 'GIF', save_all=True, append_images=[], duration=pausetime, loop=0)
-        elif recordtype == 'video':
-            frame = cv2.VideoCapture(f2).read()[1]
-            writerObj.write(frame)
+    plt.ioff()
+    plt.show()
+        # PlotOri(Node, Panel, Trigl, '-', 0.3, 'none')
+        # PlotOri(Nodew, Panel, Trigl)
+        # plt.axis('equal')
+        # plt.axis('off')
+        # # plt.light()
 
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
-        if recordtype == 'video':
-            writerObj.release()
+        # if recordtype == 'imggif':
+        #     frame = cv2.VideoCapture(f2).read()[1]
+        #     im = Image.fromarray(frame)
+        #     imind, cm = im.convert('P', palette=Image.ADAPTIVE, colors=256).getpalette()
+        #     if i == 1:
+        #         im.save(filename, 'GIF', save_all=True, append_images=[], duration=0, loop=0)
+        #     else:
+        #         im.save(filename, 'GIF', save_all=True, append_images=[], duration=pausetime, loop=0)
+        # elif recordtype == 'video':
+        #     frame = cv2.VideoCapture(f2).read()[1]
+        #     writerObj.write(frame)
+
+        #     cv2.waitKey(0)
+        #     cv2.destroyAllWindows()
+        # if recordtype == 'video':
+        #     writerObj.release()
 
     # plt.ioff()
     # plt.close(fig)
 
-    if recordtype == 'video':
-        writer.finish()
+    # if recordtype == 'video':
+    #     writer.finish()

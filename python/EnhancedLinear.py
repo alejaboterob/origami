@@ -12,7 +12,7 @@ def EnhancedLinear(he, h0, kpi, L0, limlft, limrht):
     partr = np.pi/(2*np.pi-limrht)
     
     if np.ndim(kpi) == 0:
-        kpi = np.repeat(kpi, len(he))
+        kpi = np.repeat(kpi, np.size(he))
     
     Rspr = np.zeros_like(he)
     Kspr = np.zeros_like(he)
