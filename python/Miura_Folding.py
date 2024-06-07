@@ -73,7 +73,7 @@ U_his = np.real(U_his)
 LF_his = np.real(LF_his)
 
 print(truss)
-print(angles)
+print(angles   )
 print(F)
 
 # Visualize simulation

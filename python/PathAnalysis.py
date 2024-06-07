@@ -48,12 +48,14 @@ def PathAnalysis(truss, angles, F, b_lambda, MaxIcr):
             dUr = MUL[:, 1]
             if itera == 1:
                 dUr = np.zeros_like(dUr)
-                dupc12 = []
-                numgsp = []
-                dupp1 = []
-                sinal = []
+                # dupc12 = []   
+                # numgsp = []
+                # dupp1 = []
+                # sinal = []
 
-            dlmd, dupc12, numgsp, dupp1, sinal = nlsmgd(icrm, itera, dUp, dUr, b_lambda,dupc12, numgsp, dupp1, sinal)
+            # dlmd, dupc12, numgsp, dupp1, sinal = nlsmgd(icrm, itera, dUp, dUr, b_lambda,dupc12, numgsp, dupp1, sinal)
+            dlmd = nlsmgd(icrm, itera, dUp, dUr, b_lambda)
+
             dUt = dlmd * dUp + dUr
             U = U + dUt
             err = np.linalg.norm(dUt[FreeDofs])

@@ -20,7 +20,7 @@ def FoldKe(Cood, List, kpi, h0=None, L0=None, CM=None):
     Khe = None  
 
     if h0 is not None and L0 is not None and CM is not None:
-        Rspr, Kspr = CM(he, h0, kpi, L0)
+        Rspr, Kspr, _ = CM(he, h0, kpi, L0)
     
         di = np.linalg.norm(rkj) / np.dot(rmj.T, rmj) * rmj
         dl = -np.linalg.norm(rkj) / np.dot(rnk.T, rnk) * rnk

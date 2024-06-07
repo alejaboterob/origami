@@ -92,3 +92,12 @@ VisualFold(U_his, truss, angles, 'none', 'valley_folding', 0.05, LF_his, instdof
 # plt.ylabel('Stored Energy', fontsize=14)
 # plt.grid(True)
 # plt.show()
+
+
+
+    # plt.clf()
+#fig = plt.figure()
+#ax = fig.add_subplot(111, projection='3d')
+#ax = plot_panels(Node, Panel, ax)
+#plt.draw()
+#plt.pause(0.01)

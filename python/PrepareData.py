@@ -12,7 +12,7 @@ def PrepareData(Node, Panel, Supp, Load, BarCM, RotSpring, kpf, kpb, Abar):
     Fold, Bdry, Trigl = findfdbd(Panel, Bend)
     # Define bar elements
     Bars = np.vstack([Bend[:, :2], Fold[:, :2], Bdry])
-    B, L = dirc3d(Node, Bars)
+    B, L = dirc3d(Node, Bars.astype(int))
 
     if Supp.shape[0] == 0:
         rs = []

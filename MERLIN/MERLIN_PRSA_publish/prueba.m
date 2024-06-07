@@ -11,8 +11,12 @@ err2 == err
 
 %%
 
-U_his2 == U_his 
+U_his2 == U_his
 LF_his2 == LF_his' 
+
+
+sum(sum(U_his2 - U_his))
+sum(LF_his2 - LF_his')
 
 %% 
 

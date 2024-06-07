@@ -40,7 +40,8 @@ def ConfigMiura(x_divs, y_divs, theta, a, b, gmma):
     count += len(Rbdry) - 1
     BDRY[count:count + len(Tbdry) - 1, :] = np.column_stack((Tbdry[:-1], Tbdry[1:]))
 
-    PANEL = [None] * (numx * numy)
+    # PANEL = [None] * (numx * numy)
+    PANEL = np.zeros((numx * numy, 4), dtype=int)
     k = 0
     for j in range(numy):
         for i in range(numx):

@@ -47,22 +47,21 @@ def VisualFold(U_his, truss, angles, recordtype, filename, pausetime, LF_his=Non
     # plt.clf()
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-  
-    for i in range(U_his.shape[0]):
+    ax = plot_panels(Node, Panel, ax)
+    plt.draw()
+    plt.pause(0.01)
+
+    for i in range(U_his.shape[1]):
         U = U_his[:,i]
         # plt.view(35, 30)
         Nodew = Node.copy()
         Nodew[:, 0] = Node[:, 0] + U[::3]
         Nodew[:, 1] = Node[:, 1] + U[1::3]
         Nodew[:, 2] = Node[:, 2] + U[2::3]
-        # plt.clf()
-        ax = plot_panels(Node, Panel, ax)
-        plt.draw()
-        plt.pause(0.5)
+        ax.clear()
         ax = plot_panels(Nodew, Panel, ax)
         plt.draw()
-        plt.pause(0.5)
-
+        plt.pause(0.01)
 
     plt.ioff()
     plt.show()

@@ -8,6 +8,9 @@ def findfdbd(Panel, bend):
     Panelsize = [len(panel) for panel in Panel]
     Ptri = [Panel[i] for i in range(len(Panelsize)) if Panelsize[i] == 3]
 
+    if len(Ptri) == 0:
+        Ptri = np.array([[],[],[]]).T
+        
     # Triglraw = np.concatenate((bend[:,[0,1,2]], bend[:,[0,1,3]], np.stack(Ptri, axis=0)), axis=0)
 
     Triglraw = np.concatenate((bend[:,[0,1,2]], bend[:,[0,1,3]], np.array(Ptri)), axis=0)
