@@ -17,7 +17,7 @@ def GlobalK_edu_ver(Ui, Node, truss, angles):
     Nodenw[:, 2] += Ui[2::3]
 
     for bel in range(truss['Bars'].shape[0]):
-        eDof = np.array([np.arange(0, 3) + (truss['Bars'][bel, 0])*3, np.arange(0, 3) + (truss['Bars'][bel, 1])*3]).ravel()
+        eDof = np.array([np.arange(0, 3) + (truss['Bars'][bel, 0])*3, np.arange(0, 3) + (truss['Bars'][bel, 1])*3], dtype="int").ravel()
         _, Rbe, Kbe = BarKe(Ui[eDof], csr_matrix(truss['B'])[bel, eDof], truss['L'][bel], truss['CM'], truss['A'][bel])
         IFb[eDof, :] = (IFb[eDof, :].T + Rbe).T
         I = np.repeat(eDof, 6).reshape(6, 6).T

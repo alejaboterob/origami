@@ -12,7 +12,7 @@
 %% =========== MIURA FOLDING =========================================== %%
 clear all; close all; clc;
 %% Define geomtry and material 
-sec_hor=1;  sec_vert=1;  % Number of unit cells in each direction
+sec_hor=5;  sec_vert=5;  % Number of unit cells in each direction
 theta = 60; a = 2; b = 2; fdang = 15; 
 % Geometry of the Miura: a, b are the edge lengths of each parallelogram
 % panel; fdang controls the folding angle; theta is the panel angle

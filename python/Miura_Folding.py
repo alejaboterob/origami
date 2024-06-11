@@ -16,8 +16,8 @@ from PostProcess import PostProcess
 # MIURA FOLDING
 
 # Define geometry and material parameters
-sec_hor = 1  # Number of unit cells in horizontal direction
-sec_vert = 1  # Number of unit cells in vertical direction
+sec_hor = 5  # Number of unit cells in horizontal direction
+sec_vert = 5  # Number of unit cells in vertical direction
 # Geometry of the Miura: a, b are the edge lengths of each parallelogram
 # panel; fdang controls the folding angle; theta is the panel angle
 theta = 60
@@ -49,17 +49,17 @@ BarMater = lambda Ex: Ogden(Ex, E0)  # Define bar material constitutive
 RotSpring = lambda he, h0, kpi, L0: EnhancedLinear(he, h0, kpi, L0, limlft, limrht)
 
 # Set up boundary conditions
-leftx = np.arange(1, (2 * sec_vert + 1) + 1)
-leftz = np.arange(1, (2 * sec_vert + 1) + 1, 2)
-rightz = np.arange(1, (2 * sec_vert + 1) + 1, 2) + (2 * sec_vert + 1) * (2 * sec_hor)
-rightxp = np.arange(2, (2 * sec_vert + 1) + 1, 2) + (2 * sec_vert + 1) * (2 * sec_hor)
+leftx = np.arange(0, (2 * sec_vert + 1))
+leftz = np.arange(0, (2 * sec_vert + 1) + 1, 2)
+rightz = np.arange(0, (2 * sec_vert + 1) + 1, 2) + (2 * sec_vert + 1) * (2 * sec_hor)
+rightxp = np.arange(1, (2 * sec_vert + 1), 2) + (2 * sec_vert + 1) * (2 * sec_hor)
 
-Supp = np.array([[1, 0, 1, 0],
+Supp = np.array([[0, 0, 1, 0],
                  *zip(leftx, np.ones_like(leftx), np.zeros_like(leftx), np.zeros_like(leftx)),
                  *zip(leftz, np.zeros_like(leftz), np.zeros_like(leftz), np.ones_like(leftz)),
                  *zip(rightz, np.zeros_like(rightz), np.zeros_like(rightz), np.ones_like(rightz))])
 
-indp = np.arange(0, (sec_vert * 2 + 1)) + (sec_vert * 2 + 1) * (sec_hor * 2)+1   # Revisar -1 
+indp = np.arange(0, (sec_vert * 2 + 1)) + (sec_vert * 2 + 1) * (sec_hor * 2)   # Revisar -1 
 ff = -np.ones(len(indp))
 Load = np.column_stack((indp, ff, np.zeros_like(indp), np.zeros_like(indp)))
 indp = Load[:, 0]
@@ -73,14 +73,16 @@ U_his = np.real(U_his)
 LF_his = np.real(LF_his)
 
 print(truss)
-print(angles   )
+print(angles)
 print(F)
 
 # Visualize simulation
 instdof = -(indp[0] * 3 - 2)
 interv = 1
 endicrm = U_his.shape[1]
-VisualFold(U_his[:, :interv:endicrm], truss, angles, 'none', 'miura5x5fold', 0.05, LF_his, instdof, [-np.inf, np.inf, -np.inf, np.inf])
+# VisualFold(U_his, truss, angles, 'none', 'valley_folding', 0.05, LF_his, instdof, [-np.inf, np.inf, -np.inf, np.inf])
+axislim = np.array([[0, 2 * sec_hor * a], [0, 2 * sec_vert * b], [0, a]])
+VisualFold(U_his, truss, angles, 'none', 'miura5x5fold', 0.05, LF_his, instdof, axislim)
 # If do not need load-displacement diagram:
 # VisualFold(U_his[:, :interv:endicrm], truss, angles, 'none', 'miura5x5fold', 0.0001)
 
@@ -88,15 +90,15 @@ VisualFold(U_his[:, :interv:endicrm], truss, angles, 'none', 'miura5x5fold', 0.0
 # Red line is the total profile. Between red and cyan is the folding
 # energy. Between cyan and magenta is the portion of energy for bending. 
 # Below magenta is the stretching energy of bars.
-STAT = PostProcess(Data, truss, angles)
-plt.figure()
-plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.PE.strain, 'r-', linewidth=2)  # Total profile
-plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.bend.PE + STAT.bar.PE, 'c-')  # Folding energy
-plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.bar.PE, 'm-')  # Stretching energy of bars
-plt.xlabel('Increment Number (Pseudo-time)', fontsize=14)
-plt.ylabel('Stored Energy', fontsize=14)
-plt.grid(True)
-plt.show()
+# STAT = PostProcess(Data, truss, angles)
+# plt.figure()
+# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.PE.strain, 'r-', linewidth=2)  # Total profile
+# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.bend.PE + STAT.bar.PE, 'c-')  # Folding energy
+# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.bar.PE, 'm-')  # Stretching energy of bars
+# plt.xlabel('Increment Number (Pseudo-time)', fontsize=14)
+# plt.ylabel('Stored Energy', fontsize=14)
+# plt.grid(True)
+# plt.show()
 
 
 

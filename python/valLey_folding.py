@@ -72,8 +72,8 @@ LF_his = np.real(LF_his)
 
 # Visualize simulation
 instdof = -(indp[0] * 3 - 2)
-interv = 0
-endicrm = U_his.shape[1]
+# interv = 0
+# endicrm = U_his.shape[1]
 VisualFold(U_his, truss, angles, 'none', 'valley_folding', 0.05, LF_his, instdof, [-np.inf, np.inf, -np.inf, np.inf])
  
 # If do not need load-displacement diagram:

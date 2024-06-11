@@ -83,4 +83,6 @@ def FoldKe(Cood, List, kpi, h0=None, L0=None, CM=None):
 
         Khe = (Kspr * (np.outer(Jhe.flatten(),Jhe.flatten())) + Rspr * Hp)
 
+        Khe[np.isnan(Khe)] = 0
+
     return he, Rhe, Khe
