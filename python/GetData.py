@@ -22,12 +22,12 @@ def GetData(Ui, Node, truss, angles):
     
     for d_el in range(angles['bend'].shape[0]):
         bend = angles['bend'][d_el, :]
-        he, BdAngle[d_el], Khe = FoldKe(Nodenw, bend, angles['kpb'], angles['pb0'][d_el])
+        BdAngle[d_el], Rhe, Khe = FoldKe(Nodenw, bend, angles['kpb'], angles['pb0'][d_el])
         LBd[d_el] = np.linalg.norm(Nodenw[bend[1]] - Nodenw[bend[0]])
     
     for fel in range(angles['fold'].shape[0]):
         fold = angles['fold'][fel, :]
-        he, FdAngle[fel], Khe = FoldKe(Nodenw, fold, angles['kpf'], angles['pf0'][fel])
+        FdAngle[fel],  Rhe, Khe = FoldKe(Nodenw, fold, angles['kpf'], angles['pf0'][fel])
         LFd[fel] = np.linalg.norm(Nodenw[fold[1]] - Nodenw[fold[0]])
     
     return Exbar, FdAngle, BdAngle, LFd, LBd
