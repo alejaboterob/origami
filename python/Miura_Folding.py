@@ -5,6 +5,7 @@ from PrepareData import PrepareData
 from PathAnalysis import PathAnalysis
 from EnhancedLinear import EnhancedLinear
 from VisualFold import VisualFold
+
 from PostProcess import PostProcess
 
 # MERLIN - Ke Liu, Glaucio H. Paulino
@@ -82,7 +83,7 @@ interv = 1
 endicrm = U_his.shape[1]
 # VisualFold(U_his, truss, angles, 'none', 'valley_folding', 0.05, LF_his, instdof, [-np.inf, np.inf, -np.inf, np.inf])
 axislim = np.array([[0, 2 * sec_hor * a], [0, 2 * sec_vert * b], [0, a]])
-VisualFold(U_his, truss, angles, 'none', 'miura5x5fold', 0.05, LF_his, instdof, axislim)
+VisualFold(U_his, truss, angles, LF_his)
 # If do not need load-displacement diagram:
 # VisualFold(U_his[:, :interv:endicrm], truss, angles, 'none', 'miura5x5fold', 0.0001)
 
