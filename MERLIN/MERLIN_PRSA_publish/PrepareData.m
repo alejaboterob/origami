@@ -3,7 +3,7 @@ function [truss, angles, F] = PrepareData(Node,Panel,Supp,Load,BarCM,RotSpring,k
 [Fold, Bdry, Trigl] = findfdbd(Panel,Bend);
 Bars = [Bend(:,1:2);Fold(:,1:2);Bdry];
 [B, L] = dirc3d(Node,Bars);
-if size(Supp,1) == 0
+ if size(Supp,1) == 0
     rs = []; 
 else
     rs = [reshape([Supp(:,1)*3-2,Supp(:,1)*3-1,Supp(:,1)*3]',[],1),...
@@ -24,7 +24,7 @@ for i = 1:size(Bend,1), pb0(i) = FoldKe(Node,Bend(i,:),kpb,0); end;
 m = size(Node,1);
 F = zeros(3*m,1);
 indp = Load(:,1);
-F(3*indp-2) = Load(:,2); 
+ F(3*indp-2) = Load(:,2); 
 F(3*indp-1) = Load(:,3); 
 F(3*indp) = Load(:,4);
 

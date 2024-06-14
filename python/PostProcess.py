@@ -1,7 +1,7 @@
 import numpy as np
 
 def PostProcess(Data, truss, angles):
-    Sx_bar, _, Wb = truss.CM(Data.Exbar)
+    Sx_bar, _, Wb = truss['CM'](Data['Exbar'])
     
     Rspr_fd = np.zeros(Data.FdAngle.shape)
     Efold = Rspr_fd.copy()
@@ -10,8 +10,8 @@ def PostProcess(Data, truss, angles):
     Ebend = Rspr_bd.copy()
     
     for i in range(Data.FdAngle.shape[1]):
-        Rspr_fdi, _, Efoldi = angles.CM(Data.FdAngle[:, i], angles.pf0, angles.kpf, truss.L[size(angles.bend, 0):size(angles.bend, 0) + size(angles.fold, 0)])
-        Rspr_bdi, _, Ebendi = angles.CM(Data.BdAngle[:, i], angles.pb0, angles.kpb, truss.L[:size(angles.bend, 0)])
+        Rspr_fdi, _, Efoldi = angles.CM(Data.FdAngle[:, i], angles.pf0, angles.kpf, truss.L[angles.bend.shape():angles.bend.shape() + angles.fold.shape()])
+        Rspr_bdi, _, Ebendi = angles.CM(Data.BdAngle[:, i], angles.pb0, angles.kpb, truss.L[:angles.bend.shape()])
         Rspr_fd[:, i] = Rspr_fdi
         Efold[:, i] = Efoldi
         Rspr_bd[:, i] = Rspr_bdi
