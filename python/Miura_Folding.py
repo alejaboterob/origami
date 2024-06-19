@@ -5,6 +5,9 @@ from PrepareData import PrepareData
 from PathAnalysis import PathAnalysis
 from EnhancedLinear import EnhancedLinear
 from VisualFold import VisualFold
+from displacement import displacement
+from GraphPostProcess import GraphPostProcess
+from PlotFinalConfig import PlotFinalConfig
 
 from PostProcess import PostProcess
 
@@ -82,26 +85,22 @@ instdof = -(indp[0] * 3 - 2)
 interv = 1
 endicrm = U_his.shape[1]
 # VisualFold(U_his, truss, angles, 'none', 'valley_folding', 0.05, LF_his, instdof, [-np.inf, np.inf, -np.inf, np.inf])
-axislim = np.array([[0, 2 * sec_hor * a], [0, 2 * sec_vert * b], [0, a]])
 VisualFold(U_his, truss, angles, LF_his)
-# If do not need load-displacement diagram:
-# VisualFold(U_his[:, :interv:endicrm], truss, angles, 'none', 'miura5x5fold', 0.0001)
 
+# Visualize displacement
+instdof = -(indp[0]*3)
+displacement(U_his, truss, angles, instdof, 0.1, LF_his)
+
+ 
 # Plot stored energy vs. pseudo time
-# Red line is the total profile. Between red and cyan is the folding
+# Red line is the total profile.  Between red and cyan is the folding
 # energy. Between cyan and magenta is the portion of energy for bending. 
 # Below magenta is the stretching energy of bars.
-# STAT = PostProcess(Data, truss, angles)
-# plt.figure()
-# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.PE.strain, 'r-', linewidth=2)  # Total profile
-# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.bend.PE + STAT.bar.PE, 'c-')  # Folding energy
-# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.bar.PE, 'm-')  # Stretching energy of bars
-# plt.xlabel('Increment Number (Pseudo-time)', fontsize=14)
-# plt.ylabel('Stored Energy', fontsize=14)
-# plt.grid(True)
-# plt.show()
+STAT = PostProcess(Data, truss, angles)
 
+GraphPostProcess(U_his, STAT)
 
+PlotFinalConfig(U_his, truss, angles, LF_his)
 
 
 

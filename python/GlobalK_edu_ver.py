@@ -48,7 +48,7 @@ def GlobalK_edu_ver(Ui, Node, truss, angles):
     for d_el in range(angles['bend'].shape[0]):
         eDof = np.array([3*angles['bend'][d_el, :], 3*angles['bend'][d_el, :]+1, 3*angles['bend'][d_el, :]+2]).T.ravel()
         bend = angles['bend'][d_el, :]
-        _, Rpe, Kpe = FoldKe(Nodenw, bend, angles['kpb'], angles['pb0'][d_el], Lbend[d_el], angles['CM'])
+        _, Rpe, Kpe = FoldKe(Nodenw, bend, angles['kpb'], angles['pb0'], Lbend[d_el], angles['CM'])
         IFp[eDof, :] = (IFp[eDof, :].T + Rpe).T
         I = np.repeat(eDof, 12).reshape(12, 12).T
         J = I.copy().T
@@ -65,7 +65,7 @@ def GlobalK_edu_ver(Ui, Node, truss, angles):
     for fel in range(angles['fold'].shape[0]):
         eDof = np.array([3*angles['fold'][fel, :], 3*angles['fold'][fel, :]+1, 3*angles['fold'][fel, :]+2]).T.ravel()
         fold = angles['fold'][fel, :]
-        _, Rpe, Kpe = FoldKe(Nodenw, fold, angles['kpf'][0], angles['pf0'][fel][0], Lfold, angles['CM'])   # Lfold[fel]
+        _, Rpe, Kpe = FoldKe(Nodenw, fold, angles['kpf'], angles['pf0'][fel], Lfold, angles['CM'])   # Lfold[fel]
         
         IFp[eDof, :] = (IFp[eDof, :].T + Rpe).T
 

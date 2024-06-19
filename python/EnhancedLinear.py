@@ -13,30 +13,33 @@ def EnhancedLinear(he, h0, kpi, L0, limlft, limrht):
     if np.ndim(kpi) == 0:
         kpi = np.repeat(kpi, np.size(he))
     
-    Rspr = np.zeros_like(he)
-    Kspr = np.zeros_like(he)
-    
+    Rspr = np.zeros(np.size(he))
+    Kspr = np.zeros(np.size(he))
+    Espr = np.zeros(np.size(he))
+
     Lind = he < limlft
     Rind = he > limrht
     Mind = ~(Lind | Rind)
+    # h0[Lind]
+
+    if np.any(Lind):
+        Rspr[Lind] = kpi[Lind]*(np.real(limlft - h0[Lind])) + kpi[Lind]*np.tan(partl / 2 * (he[Lind] - limlft)) / (partl / 2)    
+        Kspr[Lind] = kpi[Lind]*sec(partl/2*(he[Lind]-limlft))**2
+        Espr[Lind] = 0.5*kpi[Lind]*np.real(h0[Lind]-limlft)**2 + kpi[Lind]*np.real(h0[Lind]-limlft)*(limlft-he[Lind]) - 4*kpi[Lind]/partl**2*np.log(np.abs(np.cos(partl/2*(limlft-he[Lind]))))
+
     
-    Rspr[Lind] = kpi[0,Lind] * (np.real(limlft - h0[Lind].reshape(-1))) + \
-        kpi[0,Lind] * np.tan(partl / 2 * (he[Lind].reshape(-1) - limlft)) / (partl / 2)    
-    Kspr[Lind] = kpi[0,Lind]*sec(partl/2*(he[Lind]-limlft))**2
-    
-    Rspr[Rind] = kpi[0,Rind]*np.real(limrht-h0[Rind].reshape(-1)) + kpi[0,Rind]*np.tan(partr/2*(he[Rind].reshape(-1)-limrht))/(partr/2)
-    Kspr[Rind] = kpi[0,Rind]*sec(partr/2*(he[Rind]-limrht))**2
-    
-    Rspr[Mind] = kpi[0,Mind]*np.real(he[Mind]-h0[Mind])
-    Kspr[Mind] = kpi[0,Mind]
-    
+    if np.any(Rind):
+        Rspr[Rind] = kpi[Rind]*np.real(limrht-h0[Rind].reshape(-1)) + kpi[Rind]*np.tan(partr/2*(he[Rind].reshape(-1)-limrht))/(partr/2)
+        Kspr[Rind] = kpi[Rind]*sec(partr/2*(he[Rind]-limrht))**2
+        Espr[Rind] = 0.5*kpi[Rind]*np.real(limrht-h0[Rind])**2 + kpi[Rind]*np.real(limrht-h0[Rind])*(he[Rind]-limrht) - 4*kpi[Rind]/partr**2*np.log(np.abs(np.cos(partr/2*(he[Rind]-limrht))))
+
+    if np.any(Mind):
+        Rspr[Mind] = kpi[Mind]*np.real(he[Mind]-h0[0,Mind])
+        Kspr[Mind] = kpi[Mind]
+        Espr[Mind] = 0.5*kpi[Mind]*np.real(he[Mind]-h0[0,Mind])**2
+
     Rspr = L0*Rspr
     Kspr = L0*Kspr
-    
-    Espr = np.zeros_like(he)
-    Espr[Lind] = 0.5*kpi[0,Lind]*np.real(h0[Lind]-limlft)**2 + kpi[0,Lind]*np.real(h0[Lind]-limlft)*(limlft-he[Lind]) - 4*kpi[0,Lind]/partl**2*np.log(np.abs(np.cos(partl/2*(limlft-he[Lind]))))
-    Espr[Rind] = 0.5*kpi[0,Rind]*np.real(limrht-h0[Rind])**2 + kpi[0,Rind]*np.real(limrht-h0[Rind])*(he[Rind]-limrht) - 4*kpi[0,Rind]/partr**2*np.log(np.abs(np.cos(partr/2*(he[Rind]-limrht))))
-    Espr[Mind] = 0.5*kpi[0,Mind]*np.real(he[Mind]-h0[Mind])**2
     Espr = L0*Espr
     return Rspr, Kspr, Espr
 

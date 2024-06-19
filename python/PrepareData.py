@@ -24,13 +24,13 @@ def PrepareData(Node, Panel, Supp, Load, BarCM, RotSpring, kpf, kpb, Abar):
     if np.isscalar(Abar):
         Abar = np.full(Bars.shape[0], Abar)
 
-    pf0 = np.zeros((Fold.shape[0], 1))
+    pf0 = np.zeros(Fold.shape[0])
     for i in range(Fold.shape[0]):
-        pf0[i] = FoldKe(Node, Fold[i,:], kpf, 0)[0]
+        pf0[i], _, _ = FoldKe(Node, Fold[i,:], kpf, 0)
 
     pb0 = np.zeros(Bend.shape[0])
     for i in range(Bend.shape[0]):
-        pb0[i] = FoldKe(Node, Bend[i, :], kpb, 0)[0]
+        pb0[i], _, _ = FoldKe(Node, Bend[i, :], kpb, 0)
 
     m = Node.shape[0]
     F = np.zeros(3 * m)
@@ -54,8 +54,8 @@ def PrepareData(Node, Panel, Supp, Load, BarCM, RotSpring, kpf, kpb, Abar):
         'CM': RotSpring,
         'fold': Fold,
         'bend': Bend,
-        'kpf': np.full(Fold.shape[0], kpf),
-        'kpb': np.full(Bend.shape[0], kpb),
+        'kpf': kpf,
+        'kpb': kpb,
         'pf0': pf0,
         'pb0': np.full(Bend.shape[0], np.pi),
         'Panel': Panel

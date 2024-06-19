@@ -16,8 +16,8 @@ def GetData(Ui, Node, truss, angles):
     Nodenw[:, 2] = Node[:, 2] + Ui[2::3]
     
     for bel in range(truss['Bars'].shape[0]):
-        eDof = np.array([np.arange(-2, 1) + truss['Bars'][bel, 0] * 3,
-                        np.arange(-2, 1) + truss['Bars'][bel, 1] * 3], dtype="int").T
+        eDof = np.array([np.arange(0, 3) + truss['Bars'][bel, 0] * 3,
+                        np.arange(0, 3) + truss['Bars'][bel, 1] * 3], dtype="int")
         Exbar[bel], Rbe, Kbe= BarKe(Ui[eDof.ravel()], csr_matrix(truss['B'])[bel, eDof.ravel()], truss['L'][bel], truss['CM'], truss['A'][bel])
     
     for d_el in range(angles['bend'].shape[0]):

@@ -15,8 +15,8 @@ def displacement(U_his, truss, angles, instdof, pausetime, LF_his=None):
 
     for i in range(len(LF_his)):
         plt.cla()
-        plt.plot(dsp[:i+1], LF_his[:i+1], 'b-', linewidth=2)
-        plt.plot(dsp[i], LF_his[i], 'ro', linewidth=2)
+        plt.plot(dsp[:i+1], LF_his[:i+1], color='#e574bc', linewidth=2)
+        plt.plot(dsp[i], LF_his[i], 'o', color='#028090', linewidth=2)
         plt.xlabel('displacement', fontsize=14)
         plt.ylabel('load factor', fontsize=14)
         plt.pause(pausetime)

@@ -11,6 +11,8 @@ from EnhancedLinear import EnhancedLinear
 from VisualFold import VisualFold
 from PostProcess import PostProcess
 from displacement import displacement
+from GraphPostProcess import GraphPostProcess
+from PlotFinalConfig import PlotFinalConfig
 
 Node = np.array([[0,0,0],
                 [ 1, 0, 0],
@@ -76,11 +78,11 @@ instdof = -(indp[0] * 3 +1)
 # interv = 0
 # endicrm = U_his.shape[1]
 
-# VisualFold(U_his, truss, angles, LF_his)
+VisualFold(U_his, truss, angles, LF_his)
 
 # Visualize displacement
 instdof = -(indp[0]*3)
-# displacement(U_his, truss, angles, instdof, 0.1, LF_his)
+displacement(U_his, truss, angles, instdof, 0.1, LF_his)
 
  
 # Plot stored energy vs. pseudo time
@@ -88,21 +90,7 @@ instdof = -(indp[0]*3)
 # energy. Between cyan and magenta is the portion of energy for bending. 
 # Below magenta is the stretching energy of bars.
 STAT = PostProcess(Data, truss, angles)
-# plt.figure()
-# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.PE.strain, 'r-', linewidth=2)  # Total profile
-# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.bend.PE + STAT.bar.PE, 'c-')  # Folding energy
-# plt.plot(np.arange(1, U_his.shape[1] + 1), STAT.bar.PE, 'm-')  # Stretching energy of bars
-# plt.xlabel('Increment Number (Pseudo-time)', fontsize=14)
-# plt.ylabel('Stored Energy', fontsize=14)
-# plt.grid(True)
-# plt.show()
 
+GraphPostProcess(U_his, STAT)
 
-
-    # plt.clf()
-#fig = plt.figure()
-#ax = fig.add_subplot(111, projection='3d')
-#ax = plot_panels(Node, Panel, ax)
-#plt.draw()
-#plt.pause(0.01)
-
+PlotFinalConfig(U_his, truss, angles, LF_his)
