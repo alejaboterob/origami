@@ -73,7 +73,7 @@ def VisualFold(U_his, truss, angles, LF_his=None):
     data = {'Node': Node, 'Node_history': Node_history, 'Panel': Panel}
     np.save('data_completa.npy', data)
 
-    plt.show()
+    plt.show(block = False)
 
     save_gif_PIL("ori_anim.gif", files, fps=5, loop=0)
     # [os.remove(file) for file in files]

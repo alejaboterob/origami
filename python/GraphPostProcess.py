@@ -14,5 +14,5 @@ def GraphPostProcess(U_his, STAT):
     plt.xlabel('Increment Number (Pseudo-time)', fontsize=14)
     plt.ylabel('Stored Energy', fontsize=14)
     plt.grid(True)
-    plt.show()
+    plt.show(block = False)
 

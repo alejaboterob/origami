@@ -34,9 +34,9 @@ def EnhancedLinear(he, h0, kpi, L0, limlft, limrht):
         Espr[Rind] = 0.5*kpi[Rind]*np.real(limrht-h0[Rind])**2 + kpi[Rind]*np.real(limrht-h0[Rind])*(he[Rind]-limrht) - 4*kpi[Rind]/partr**2*np.log(np.abs(np.cos(partr/2*(he[Rind]-limrht))))
 
     if np.any(Mind):
-        Rspr[Mind] = kpi[Mind]*np.real(he[Mind]-h0[0,Mind])
+        Rspr[Mind] = kpi[Mind]*np.real(he[Mind]-h0[Mind])
         Kspr[Mind] = kpi[Mind]
-        Espr[Mind] = 0.5*kpi[Mind]*np.real(he[Mind]-h0[0,Mind])**2
+        Espr[Mind] = 0.5*kpi[Mind]*np.real(he[Mind]-h0[Mind])**2
 
     Rspr = L0*Rspr
     Kspr = L0*Kspr

@@ -22,5 +22,5 @@ def displacement(U_his, truss, angles, instdof, pausetime, LF_his=None):
         plt.pause(pausetime)
 
 
-    plt.show()
+    plt.show(block = False)
     # save_gif_PIL("ori_anim.gif", files, fps=5, loop=0)

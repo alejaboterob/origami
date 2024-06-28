@@ -59,5 +59,5 @@ def PlotFinalConfig(U_his, truss, angles, LF_his=None):
                     [mins[1], maxs[1]],
                     [mins[2], maxs[2]])    
 
-    plt.show()
+    plt.show(block = False)
 
