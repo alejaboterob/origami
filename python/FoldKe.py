@@ -4,6 +4,38 @@ def icross(a, b):
     return np.cross(a, b, axis=0)
 
 def FoldKe(Cood, List, kpi, h0=None, L0=None, CM=None):
+    '''The function `FoldKe` calculates certain geometric properties and returns relevant values based on
+    the input parameters.
+    
+    Parameters
+    ----------
+    Cood
+        It seems like the description of the parameters for the function `FoldKe` is incomplete. Could you
+    please provide the descriptions for the following parameters as well?
+    List
+        The `List` parameter in the `FoldKe` function represents a list of indices that are used to access
+    coordinates in the `Cood` array. The function calculates various vectors and angles based on these
+    indices.
+    kpi
+        The `kpi` parameter in the `FoldKe` function seems to be a key parameter used in the calculations
+    within the function. It is passed as an argument to the function and is used in various calculations
+    involving vectors and matrices. The specific role and meaning of `kpi` would depend on
+    h0
+        The `h0` parameter in the `FoldKe` function represents the reference angle for the folding
+    calculation. It is used in the calculation of the folding energy and related parameters based on the
+    input coordinates and list of atoms.
+    L0
+        In the provided function `FoldKe`, the parameter `L0` is not used directly in the function itself.
+    It is passed as an argument but not utilized within the function body.
+    CM
+        It seems like the `CM` parameter in the `FoldKe` function is a function that takes four arguments
+    (`he`, `h0`, `kpi`, `L0`) and returns three values (`Rspr`, `Kspr`, `_`).
+    
+    Returns
+    -------
+        The function `FoldKe` returns three values: `he`, `Rhe`, and `Khe`.
+    
+    '''
     rkj = (Cood[List[1]] - Cood[List[0]]).T
     rij = (Cood[List[2]] - Cood[List[0]]).T
     rkl = (Cood[List[1]] - Cood[List[3]]).T

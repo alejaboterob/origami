@@ -1,10 +1,60 @@
 import numpy as np
 def sec(x):
+    '''The function `sec(x)` calculates the secant of the input angle `x` while preventing division by
+    zero.
+
+    Parameters
+    ----------
+    x
+        The function `sec(x)` calculates the secant of the input angle `x`. The parameter `x` represents
+    the angle in radians for which you want to calculate the secant.
+
+    Returns
+    -------
+        The function `sec(x)` returns the secant of the input value `x`, which is calculated as 1 divided
+    by the cosine of `x` plus a small epsilon value to prevent division by zero errors.
+
+    '''
     # Small number to prevent division by zero
     epsilon = 1e-10  
     return 1 / (np.cos(x) + epsilon)
 
 def EnhancedLinear(he, h0, kpi, L0, limlft, limrht):
+    '''The `EnhancedLinear` function calculates the spring properties (Rspr, Kspr, Espr) based on input
+    parameters and conditions.
+    
+    Parameters
+    ----------
+    he
+        The `he` parameter in the `EnhancedLinear` function represents the input values for which you want
+    to calculate the corresponding output values. It is an array of values representing the input
+    positions.
+    h0
+        The `h0` parameter in the `EnhancedLinear` function represents the initial height values for each
+    element in the input array `he`. It is used in the calculations to determine the behavior of the
+    system based on the input heights `he`.
+    kpi
+        The `kpi` parameter in the `EnhancedLinear` function represents the stiffness coefficient for the
+    linear spring model. It is used to calculate the spring properties based on the input parameters and
+    conditions provided in the function.
+    L0
+        It seems like the description of the parameter L0 is missing. Could you please provide more
+    information about what L0 represents in the context of the EnhancedLinear function?
+    limlft
+        It seems like the code snippet you provided defines a function named `EnhancedLinear` that
+    calculates some values based on the input parameters. The parameters used in the function are:
+    limrht
+        It seems like you were about to provide a description of the parameter `limrht` but the message got
+    cut off. Could you please provide more information or let me know if you need assistance with
+    something specific related to the `limrht` parameter?
+    
+    Returns
+    -------
+        The function `EnhancedLinear` returns three arrays: `Rspr`, `Kspr`, and `Espr`. These arrays
+    contain the calculated values based on the input parameters and the logic implemented in the
+    function.
+    
+    '''
     limlft = limlft/180*np.pi
     partl = np.pi/limlft
     limrht = limrht/180*np.pi
@@ -12,6 +62,13 @@ def EnhancedLinear(he, h0, kpi, L0, limlft, limrht):
     
     if np.ndim(kpi) == 0:
         kpi = np.repeat(kpi, np.size(he))
+
+    if np.size(h0) != np.size(he): #OJOI 
+        h0 = h0[0]
+
+    if np.size(kpi) != 0: #OJOI
+        if np.size(kpi) != 1:
+            kpi = kpi[0]
     
     Rspr = np.zeros(np.size(he))
     Kspr = np.zeros(np.size(he))
@@ -34,9 +91,10 @@ def EnhancedLinear(he, h0, kpi, L0, limlft, limrht):
         Espr[Rind] = 0.5*kpi[Rind]*np.real(limrht-h0[Rind])**2 + kpi[Rind]*np.real(limrht-h0[Rind])*(he[Rind]-limrht) - 4*kpi[Rind]/partr**2*np.log(np.abs(np.cos(partr/2*(he[Rind]-limrht))))
 
     if np.any(Mind):
-        Rspr[Mind] = kpi[Mind]*np.real(he[Mind]-h0[Mind])
-        Kspr[Mind] = kpi[Mind]
-        Espr[Mind] = 0.5*kpi[Mind]*np.real(he[Mind]-h0[Mind])**2
+        # Rspr[Mind] = kpi[Mind]*np.real(he[Mind]-h0[Mind])
+        Rspr = kpi*np.real(he-h0)
+        Kspr = kpi
+        Espr = 0.5*kpi*np.real(he-h0)**2
 
     Rspr = L0*Rspr
     Kspr = L0*Kspr

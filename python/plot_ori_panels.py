@@ -13,6 +13,26 @@ import os
 
 
 def save_gif_PIL(outfile, files, fps=5, loop=0):
+    '''The function `save_gif_PIL` saves a list of PNG files as a GIF with specified frames per second and
+    looping options using the Python Imaging Library (PIL).
+    
+    Parameters
+    ----------
+    outfile
+        The `outfile` parameter is a string that represents the path to the output file where the GIF will
+    be saved.
+    files
+        The `files` parameter in the `save_gif_PIL` function is a list of paths with the PNG files that you
+    want to include in the GIF. You should provide a list of file paths as strings to this parameter
+    when calling the function.
+    fps, optional
+        The `fps` parameter in the `save_gif_PIL` function stands for frames per second. It determines how
+    many frames are displayed per second in the resulting GIF animation.
+    loop, optional
+        The `loop` parameter in the `save_gif_PIL` function specifies the number of times the GIF should
+    loop.
+    
+    '''
     """Helper function for saving GIFs
     
     Parameters
@@ -33,6 +53,30 @@ def save_gif_PIL(outfile, files, fps=5, loop=0):
 
 
 def plot_panels(nodes, panels, ax=None, **plot_kwargs):
+    '''The function `plot_panels` plots origami panels in 3D as a 3D collection of polygons using
+    Matplotlib.
+    
+    Parameters
+    ----------
+    nodes
+        The `nodes` parameter is an ndarray containing the coordinates of the vertices in 3D space. Each
+    row in the array represents the coordinates of a single vertex, and the shape of the array is
+    `(n_nodes, 3)`, where `n_nodes` is the number of vertices.
+    panels
+        The `panels` parameter is a list that contains the vertices number for each panel. Each element in
+    the list represents a panel, and the numbers within that element correspond to the vertices that
+    make up that panel.
+    ax
+        The `ax` parameter in the `plot_panels` function is a Matplotlib.axes object. It is used to specify
+    the axes where the 3D plot of origami panels will be added. If `ax` is not provided (i.e., it is
+    `None`), the function
+    
+    Returns
+    -------
+        The function `plot_panels` returns the Matplotlib axes object `ax` where the 3D graphic of the
+    origami panels is plotted.
+    
+    '''
     """Plot origami panels in 3D as a 3D collection of polygons
     
     Parameters

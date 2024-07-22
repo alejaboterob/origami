@@ -2,6 +2,25 @@ import numpy as np
 from scipy.sparse import csr_matrix
 
 def findfdbd(Panel, bend):
+    '''The function `findfdbd` takes in a panel and bend array, performs triangularization, finds fold
+    lines and boundaries, and returns the resulting fold lines, boundaries, and triangularization data.
+    
+    Parameters
+    ----------
+    Panel
+        The `Panel` parameter seems to represent a collection of panels in a geometric context. The
+    function `findfdbd` appears to be performing some operations related to triangularization,
+    connectivity matrix formulation, and identifying fold lines and boundaries within the panels.
+    bend
+        It seems like the code snippet you provided is incomplete. You mentioned the `bend` parameter, but
+    its actual value is missing. Could you please provide the value of the `bend` parameter so that I
+    can assist you further with running the `findfdbd` function?
+    
+    Returns
+    -------
+        The function `findfdbd` returns three arrays: `fold`, `bdry`, and `Trigl`.
+    
+    '''
     Nn = max(np.max(panel) for panel in Panel)+1 # sin +1 igual que matlab
     
     # triangularization

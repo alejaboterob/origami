@@ -1,7 +1,28 @@
 import numpy as np
+
 from scipy.sparse import coo_matrix
 
 def dirc3d(Node, Ele):
+    '''The function `dirc3d` calculates the direction cosines of each element in a 3D mesh and constructs a
+    sparse matrix B based on the calculated values.
+
+    Parameters
+    ----------
+    Node
+        The `Node` parameter in the `dirc3d` function likely represents the coordinates of the nodes in a
+    3D space. It is a numpy array where each row corresponds to the coordinates of a node in 3D space.
+    Ele
+        The `Ele` parameter in the `dirc3d` function represents the element connectivity array. It is a
+    NumPy array where each row defines an element by specifying the indices of the nodes that form the
+    element.
+
+    Returns
+    -------
+        The function `dirc3d` returns two values: 
+    1. The sparse matrix `B` which represents the directional cosines of the elements in a 3D mesh.
+    2. The array `L` which contains the lengths of the elements in the mesh.
+
+    '''
     Ne = Ele.shape[0]
     Nn = Node.shape[0]
     D = np.column_stack([

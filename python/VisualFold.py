@@ -6,6 +6,29 @@ import matplotlib.pyplot as plt
 from plot_ori_panels import plot_panels, save_gif_PIL
 
 def VisualFold(U_his, truss, angles, LF_his=None):
+    '''The function `VisualFold` generates a 3D animation of a truss structure undergoing deformation and
+    saves it as a GIF file.
+    
+    Parameters
+    ----------
+    U_his
+        U_his is a numpy array containing the history of nodal displacements over time in the simulation.
+    Each column represents the nodal displacements at a specific time step.
+    truss
+        The `truss` parameter in the `VisualFold` function seems to represent the truss structure in the
+    simulation. It likely contains information about the nodes and triangles that make up the truss. The
+    function uses this information to visualize the truss structure and its deformation over time.
+    angles
+        The `angles` parameter in the `VisualFold` function seems to represent the angles of the panels in
+    the truss structure. It is used to extract the panel information from the input data. The function
+    then visualizes the truss structure with panels at different angles over time based on the input
+    displacement
+    LF_his
+        LF_his is a NumPy array that represents the load history of the truss structure. It contains the
+    load values applied to the truss at different time steps. If provided, the function will sum the
+    load values along the columns to simplify the visualization.
+    
+    '''
     """
     Record the simulation to file if needed:
     recordtype = 'none': do not save the simulation

@@ -6,6 +6,28 @@ import matplotlib.pyplot as plt
 from plot_ori_panels import plot_panels, save_gif_PIL
 
 def PlotFinalConfig(U_his, truss, angles, LF_his=None):
+    '''The function `PlotFinalConfig` plots the final configuration of a truss structure with optional
+    features for recording and displaying load vs. displacement diagrams.
+    
+    Parameters
+    ----------
+    U_his
+        It seems like the code snippet you provided is a function named `PlotFinalConfig` that is used to
+    plot a truss structure with some specified configurations. The function takes several parameters
+    including `U_his`, `truss`, `angles`, and optionally `LF_his`.
+    truss
+        The `truss` parameter in the `PlotFinalConfig` function seems to represent the truss structure in
+    the simulation. It likely contains information about the nodes and elements of the truss. The `Node`
+    and `Trigl` keys within the `truss` dictionary probably store the
+    angles
+        The `angles` parameter in the `PlotFinalConfig` function seems to represent the angles of the truss
+    panels. It is used to plot the panels in the 3D visualization. The `Panel` variable extracted from
+    the `angles` dictionary likely contains information about the panels such as their vertices
+    LF_his
+        LF_his is a NumPy array that represents the load history of the truss structure. If provided, it is
+    used to calculate the total load at each time step for plotting load vs. displacement diagram.
+    
+    '''
     """
     Record the simulation to file if needed:
     recordtype = 'none': do not save the simulation

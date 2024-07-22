@@ -5,6 +5,33 @@ from BarKe import BarKe
 from FoldKe import FoldKe
 
 def GlobalK_edu_ver(Ui, Node, truss, angles):
+    '''The function `GlobalK_edu_ver` calculates the global stiffness matrix and internal forces for a
+    truss structure with bars, bends, and folds.
+    
+    Parameters
+    ----------
+    Ui
+        It seems like the description of the parameters is incomplete. Could you please provide more
+    information about the parameters Ui, Node, truss, and angles so that I can better understand the
+    function `GlobalK_edu_ver` and assist you further?
+    Node
+        The `GlobalK_edu_ver` function seems to be calculating the global stiffness matrix and internal
+    forces for a truss structure based on the input parameters. Here is a brief overview of the
+    parameters used in the function:
+    truss
+        It looks like the code you provided is a function named `GlobalK_edu_ver` that seems to be related
+    to structural analysis using finite element methods. The function calculates the global stiffness
+    matrix `K` and the internal forces `IF` for a truss structure based on the input parameters `Ui
+    angles
+        The `angles` parameter seems to contain information related to bending and folding operations in a
+    truss structure. It includes keys such as 'bend', 'fold', 'kpb', 'pb0', 'kpf', 'pf0', and 'CM'.
+    These keys likely represent different aspects of
+    
+    Returns
+    -------
+        The function `GlobalK_edu_ver` returns two variables `IF` and `K`.
+    
+    '''
     Nn = Node.shape[0]
     IFb = np.zeros((3*Nn, 1))
     IFp = IFb.copy()
@@ -48,7 +75,7 @@ def GlobalK_edu_ver(Ui, Node, truss, angles):
     for d_el in range(angles['bend'].shape[0]):
         eDof = np.array([3*angles['bend'][d_el, :], 3*angles['bend'][d_el, :]+1, 3*angles['bend'][d_el, :]+2]).T.ravel()
         bend = angles['bend'][d_el, :]
-        _, Rpe, Kpe = FoldKe(Nodenw, bend, angles['kpb'], angles['pb0'], Lbend[d_el], angles['CM'])
+        _, Rpe, Kpe = FoldKe(Nodenw, bend, angles['kpb'][d_el], angles['pb0'][d_el], Lbend[d_el], angles['CM'])
         IFp[eDof, :] = (IFp[eDof, :].T + Rpe).T
         I = np.repeat(eDof, 12).reshape(12, 12).T
         J = I.copy().T

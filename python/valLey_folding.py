@@ -13,6 +13,7 @@ from PostProcess import PostProcess
 from displacement import displacement
 from GraphPostProcess import GraphPostProcess
 from PlotFinalConfig import PlotFinalConfig
+from matplotlib import pyplot as plt
 
 Node = np.array([[0,0,0],
                 [ 1, 0, 0],
@@ -94,3 +95,5 @@ STAT = PostProcess(Data, truss, angles)
 GraphPostProcess(U_his, STAT)
 
 PlotFinalConfig(U_his, truss, angles, LF_his)
+
+plt.show()

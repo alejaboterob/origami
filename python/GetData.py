@@ -4,6 +4,30 @@ from BarKe import BarKe
 from FoldKe import FoldKe
 
 def GetData(Ui, Node, truss, angles):
+    '''The function `GetData` calculates various properties of bars and angles in a truss structure based
+    on input parameters.
+    
+    Parameters
+    ----------
+    Ui
+        The `Ui` parameter seems to represent the displacement vector of the truss structure. It is used to
+    calculate the updated nodal positions in the `GetData` function.
+    Node
+        The `Node` parameter represents the nodal coordinates of the truss structure. It is a numpy array
+    where each row corresponds to a node and the columns represent the x, y, and z coordinates of the
+    node in 3D space.
+    truss
+        The `GetData` function takes four parameters: `Ui`, `Node`, `truss`, and `angles`.
+    angles
+        The `angles` parameter seems to be a dictionary containing keys such as 'fold' and 'bend'. Each key
+    corresponds to an array of angles. The 'fold' key seems to represent folding angles, while the
+    'bend' key represents bending angles.
+    
+    Returns
+    -------
+        The function `GetData` returns five arrays: `Exbar`, `FdAngle`, `BdAngle`, `LFd`, and `LBd`.
+    
+    '''
     Exbar = np.zeros((truss['Bars'].shape[0], 1))
     FdAngle = np.zeros((angles['fold'].shape[0], 1))
     BdAngle = np.zeros((angles['bend'].shape[0], 1))
@@ -22,7 +46,8 @@ def GetData(Ui, Node, truss, angles):
     
     for d_el in range(angles['bend'].shape[0]):
         bend = angles['bend'][d_el, :]
-        BdAngle[d_el], Rhe, Khe = FoldKe(Nodenw, bend, angles['kpb'], angles['pb0'][d_el])
+        BdAngle[d_el], Rhe, Khe = FoldKe(Nodenw, bend, angles['kpb'], angles['pb0'])
+        # BdAngle[d_el], Rhe, Khe = FoldKe(Nodenw, bend, angles['kpb'], angles['pb0'][d_el])
         LBd[d_el] = np.linalg.norm(Nodenw[bend[1]] - Nodenw[bend[0]])
     
     for fel in range(angles['fold'].shape[0]):

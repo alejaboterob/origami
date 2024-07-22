@@ -1,3 +1,7 @@
+# This Python script is a simulation and analysis program for Miura folding, a type of origami folding
+# pattern. Here is a breakdown of what the script does:
+
+
 import numpy as np
 from ConfigMiura import ConfigMiura
 from Ogden import Ogden
@@ -10,6 +14,8 @@ from GraphPostProcess import GraphPostProcess
 from PlotFinalConfig import PlotFinalConfig
 
 from PostProcess import PostProcess
+
+from matplotlib import pyplot as plt
 
 # MERLIN - Ke Liu, Glaucio H. Paulino
 # Ref: K. Liu, G. H. Paulino (2017). 'Nonlinear mechanics of non-rigid origami - An efficient computational approach.'
@@ -43,7 +49,7 @@ Abar = 1e-1
 # Left and right limits for the linear range of rotational stiffness
 limlft = 0.1
 limrht = 360 - 0.1
- 
+
 # Call ConfigMiura to get Node and Panel arrays
 Node, Panel, BDRY = ConfigMiura(sec_hor, sec_vert, theta, a, b, fdang)
 # Node, Panel, _ = ConfigMiura(sec_hor, sec_vert, theta, a, b, fdang)
@@ -103,7 +109,7 @@ GraphPostProcess(U_his, STAT)
 PlotFinalConfig(U_his, truss, angles, LF_his)
 
 
-
+plt.show()
 
 
 # print(Node)

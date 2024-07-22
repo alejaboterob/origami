@@ -8,6 +8,43 @@ from GetData import GetData
 from scipy.io import loadmat
 
 def PathAnalysis(truss, angles, F, b_lambda, MaxIcr):
+    '''The function `PathAnalysis` performs a path-following analysis on a truss structure under specified
+    loading conditions and constraints, storing the results at each iteration.
+    
+    Parameters
+    ----------
+    truss
+        The `truss` parameter in the `PathAnalysis` function seems to be a dictionary containing
+    information about the truss structure. It likely includes keys such as 'Node', 'Bars', 'FixedDofs',
+    and 'U0', which are used within the function for calculations related to the tr
+    angles
+        The `angles` parameter seems to contain information related to the angles of the truss structure.
+    It likely includes data about fold angles and bend angles. The function `PathAnalysis` uses this
+    information along with other parameters to perform some calculations related to the truss structure.
+    If you have specific questions or
+    F
+        The `F` parameter in the `PathAnalysis` function represents the applied load on the truss
+    structure. It is a vector that contains the magnitudes of the applied loads on each degree of
+    freedom of the truss.
+    b_lambda
+        The `b_lambda` parameter in the `PathAnalysis` function seems to be related to the constraint
+    radius used in the analysis. It is adjusted during the iterations based on certain conditions within
+    the function. The value of `b_lambda` affects the convergence behavior of the algorithm and is
+    modified dynamically within the
+    MaxIcr
+        The `MaxIcr` parameter in the `PathAnalysis` function represents the maximum number of iterations
+    allowed for the path analysis algorithm. This parameter controls how many iterations the algorithm
+    will perform before terminating and returning the results.
+    
+    Returns
+    -------
+        The function `PathAnalysis` returns three main outputs:
+    1. `Uhis`: A matrix containing the displacement history of the truss structure at each iteration.
+    2. `load_his`: An array containing the load history of the truss structure at each iteration.
+    3. `Data`: A dictionary containing various data arrays related to the truss structure, such as
+    'Exbar', 'Fd
+    
+    '''
     tol = 1e-6
     Maxitera = 50
     Node = truss['Node']

@@ -5,6 +5,37 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
 def PlotOri(node, panel, trigl, lstyle='-', alfa=1, color='g'):
+    '''The function `PlotOri` in Python is used to plot 3D triangles and panels based on input node, panel,
+    and trigl data with customizable line style, transparency, and color.
+    
+    Parameters
+    ----------
+    node
+        The `node` parameter in the `PlotOri` function seems to represent the coordinates of nodes in a 3D
+    space. These nodes likely define the vertices of the geometric shapes (triangles and panels) that
+    are being plotted in the function. The `node` parameter is used to create
+    panel
+        The `panel` parameter in the `PlotOri` function seems to represent a list of panels in a 3D space.
+    Each panel is defined by a set of points that form a polygon. The panels are organized based on
+    their size, with triangles and quadrilaterals separated into different lists
+    trigl
+        The `trigl` parameter in the `PlotOri` function seems to represent an array containing indices of
+    triangles. These triangles are used to create 3D patches that will be plotted in the visualization.
+    The function checks if `trigl` is not empty and then creates patches for
+    lstyle, optional
+        The `lstyle` parameter in the `PlotOri` function is used to specify the line style for plotting the
+    panels. The default value is `'-'`, which represents a solid line style. You can change this
+    parameter to customize the appearance of the lines in the plot. Some common line styles
+    alfa, optional
+        The `alfa` parameter in the `PlotOri` function seems to represent the transparency or alpha value
+    of the plotted elements. A value of 1 indicates full opacity, while a value closer to 0 indicates
+    increasing transparency.
+    color, optional
+        The `color` parameter in the `PlotOri` function is used to specify the color of the plotted
+    polygons. The default color is set to 'g', which represents green. You can change this parameter to
+    any valid color string in Matplotlib to customize the color of the plotted polygons. Some
+    
+    '''
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     

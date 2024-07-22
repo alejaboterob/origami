@@ -1,6 +1,31 @@
 import numpy as np
 
 def GetDiSym(N, h, lyr, phi):
+    '''The function `GetDiSym` generates node coordinates and panel connectivity for a symmetric geometry
+    based on input parameters.
+    
+    Parameters
+    ----------
+    N
+        N is the number of nodes in each layer.
+    h
+        The parameter `h` in the `GetDiSym` function represents the height of the structure. It is used to
+    calculate the Z coordinates of the nodes in the structure based on the number of layers (`lyr`) and
+    the number of nodes per layer (`N`).
+    lyr
+        The parameter `lyr` in the `GetDiSym` function represents the number of layers in the structure. It
+    is used to determine the number of layers in the structure and to perform calculations based on the
+    specified number of layers.
+    phi
+        The `phi` parameter in the `GetDiSym` function represents the rotation angle for each layer in the
+    structure. It can be a single value if the structure has the same rotation angle for all layers, or
+    it can be an array of rotation angles if each layer has a different rotation angle.
+    
+    Returns
+    -------
+        The function `GetDiSym` returns two arrays: `Node` and `Panel`.
+    
+    '''
     if len(np.atleast_1d(phi)) == 1:
         rotangle = (np.arange(lyr)) * phi
     else:

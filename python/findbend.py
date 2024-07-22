@@ -1,6 +1,26 @@
 import numpy as np
 
 def findbend(Panel, Node):
+    '''The `findbend` function in Python calculates the bending points of panels based on the distances
+    between nodes.
+    
+    Parameters
+    ----------
+    Panel
+        The `Panel` parameter seems to be a list of lists where each inner list represents a panel with
+    four nodes. Each inner list contains the indices of the four nodes that make up the panel.
+    Node
+        The `Node` parameter in the `findbend` function likely represents an array containing the
+    coordinates of nodes in a structural panel or mesh. These coordinates are used to calculate the
+    lengths of edges in the panel.
+    
+    Returns
+    -------
+        The function `findbend` returns a numpy array containing the indices of nodes that define the
+    bending sequence for each panel in the input `Panel` array. The returned array has a shape of (n, 4)
+    where n is the number of panels with valid bending sequences.
+    
+    '''
     bend = np.zeros((len(Panel), 4), dtype=int)
     for i in range(len(Panel)):
         if len(Panel[i]) == 4:

@@ -1,7 +1,35 @@
 import numpy as np
 
 def ConfigMiura(x_divs, y_divs, theta, a, b, gmma):
-    
+
+    '''The function `ConfigMiura` generates node coordinates, panel connectivity, and boundary information
+    for a Miura pattern based on input parameters.
+
+    Parameters
+    ----------
+    x_divs
+        X divisions in the Miura pattern
+    y_divs
+        The `y_divs` parameter in the `ConfigMiura` function represents the number of divisions along the
+    y-axis in the Miura pattern configuration. It determines how many segments the pattern will have
+    vertically. Increasing `y_divs` will result in more detailed and smaller segments along the y-axis
+    theta
+        Theta is the angle in degrees that is converted to radians for calculations in the function.
+    a
+        Parameter 'a' represents the length of the Miura fold along the x-axis.
+    b
+        Parameter `b` represents the length of the Miura fold unit cell in the y-direction. It is used in
+    the Miura configuration calculation to determine the geometry of the fold pattern.
+    gmma
+        The parameter `gmma` in the `ConfigMiura` function represents the angle `gamma` in degrees. It is
+    converted to radians within the function using the formula `gmma = gmma * np.pi / 180`. This
+    conversion allows the angle to be used in trigonometric calculations
+
+    Returns
+    -------
+        The function `ConfigMiura` returns three arrays: `NODE`, `PANEL`, and `BDRY`.
+
+    '''
     theta = np.pi * theta / 180
     gmma = gmma * np.pi / 180
     numx = 2 * x_divs
