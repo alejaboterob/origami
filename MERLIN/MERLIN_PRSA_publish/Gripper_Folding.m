@@ -1,45 +1,77 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%                                  MERLIN                               %%
-%                         Ke Liu, Glaucio H. Paulino                      %
-% Ref: K. Liu, G. H. Paulino (2017). 'Nonlinear mechanics of non-rigid    %
-%      origami - An efficient computational approach.' Proceedings of     %
-%      the Royal Society A.                                               %
-%      K. Liu, G. H. Paulino (2016). 'MERLIN: A MATLAB implementation to  %
-%      capture highly nonlinear behavior of non-rigid origami.'           %
-%      Proceedings of IASS Annual Symposium 2016.                         %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% =========== MIURA FOLDING =========================================== %%
+%% =========== VALLEY FOLDING =========================================== %%
 clear all; close all; clc;
-%% Define geomtry and material 
-sec_hor=5;  sec_vert=5;  % Number of unit cells in each direction
-theta = 60; a = 2; b = 2; fdang = 15; 
-% Geometry of the Miura: a, b are the edge lengths of each parallelogram
-% panel; fdang controls the folding angle; theta is the panel angle
-MaxIcr = 60; blam = 0.5; 
+%% Define geometry and material 
+
+a = 4;
+b = 2;
+c = 6;
+d = 2;
+e = 2;
+
+Node = [
+    0, -b/2, 0;
+    a, -b/2, 0;
+    0, b/2, 0;
+    a, b/2, 0;
+    (a-e)/2, -(d+b)/2, -d/2;
+    (a+e)/2, -(d+b)/2, -d/2;
+    (a-e)/2, (d+b)/2, -d/2;
+    (a+e)/2, (d+b)/2, -d/2;
+    0, -b/2, c;
+    0, b/2, c;
+    a, -b/2, c;
+    a, b/2, c
+];
+
+Panel = {
+    [0, 1, 3, 2]+1;
+    [0, 1, 5, 4]+1;
+    [2, 3, 7, 6]+1;
+    [0, 4, 8]+1;
+    [0, 2, 9, 8]+1;
+    [2, 6, 9]+1;
+    [1, 10, 5]+1;
+    [1, 3, 11, 10]+1;
+    [3, 7, 11]+1
+};
+
+BDRY = [
+    8, 4;
+    4, 5;
+    5, 10;
+    10, 11;
+    11, 7;
+    7, 6;
+    6, 9;
+    9, 8
+]+1;
+
+
+%%
+MaxIcr = 60; blam = 0.01; 
 % Maximum increment number & initial load factor
 Kf = 1e-1; Kb = Kf*1e5; E0 = 1e6; Abar = 1e-1;
 % Material-related parameters: Kf-folding stiffness; Kb-bending stiffness;
 % E0-stretching stiffness; Abar-bar area (assume uniform)
-limlft = 0.1; limrht = 360-0.1;
+limlft = 0.1; limrht = 180-0.1;
 % Left and right limits for the linear range of rotational stiffness
-[Node,Panel,BDRY]=ConfigMiura(sec_hor,sec_vert,theta,a,b,fdang); 
-
+%%
 BarMater = @(Ex)Ogden(Ex, E0); % Define bar material constitutive
 RotSpring = @(he,h0,kpi,L0)EnhancedLinear(he,h0,kpi,L0,limlft,limrht);
 
 %% Set up boundary conditions
-leftx = 1:(2*sec_vert+1);
-leftz = 1:2:(2*sec_vert+1);
-rightz = [1:2:(2*sec_vert+1)]+(2*sec_vert+1)*(2*sec_hor);
-rightxp = [2:2:(2*sec_vert+1)]+(2*sec_vert+1)*(2*sec_hor);
-Supp = [1, 0, 1, 0;
-        leftx',ones(numel(leftx),1),zeros(numel(leftx),1),zeros(numel(leftx),1);
-        leftz',zeros(numel(leftz),1),zeros(numel(leftz),1),ones(numel(leftz),1);
-        rightz',zeros(numel(rightz),1),zeros(numel(rightz),1),ones(numel(rightz),1)];
-indp = [1:1:(sec_vert*2+1)]'+(sec_vert*2+1)*(sec_hor*2);
-ff = -1*ones(length(indp),1); 
-Load = [indp,ff,zeros(length(indp),1),zeros(length(indp),1)];
-indp = Load(:,1);
+% Set up boundary conditions
+Supp = [
+    1, 1, 1, 1;
+    2, 1, 1, 1;
+    3, 1, 1, 1;
+    4, 1, 1, 1
+];
+
+indp = [5, 6, 7,8];
+ff = [1, 1, -1, -1] .*3;  
+Load = [indp', zeros(length(indp), 1), ff', zeros(length(indp), 1)];
+indp = Load(:, 1);
 
 %% Perform analysis
 [truss, angles, F] = PrepareData(Node,Panel,Supp,Load,BarMater,RotSpring,Kf,Kb,Abar);
