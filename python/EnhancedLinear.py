@@ -80,15 +80,15 @@ def EnhancedLinear(he, h0, kpi, L0, limlft, limrht):
     # h0[Lind]
 
     if np.any(Lind):
-        Rspr[Lind] = kpi[Lind]*(np.real(limlft - h0[Lind])) + kpi[Lind]*np.tan(partl / 2 * (he[Lind] - limlft)) / (partl / 2)    
-        Kspr[Lind] = kpi[Lind]*sec(partl/2*(he[Lind]-limlft))**2
-        Espr[Lind] = 0.5*kpi[Lind]*np.real(h0[Lind]-limlft)**2 + kpi[Lind]*np.real(h0[Lind]-limlft)*(limlft-he[Lind]) - 4*kpi[Lind]/partl**2*np.log(np.abs(np.cos(partl/2*(limlft-he[Lind]))))
+        Rspr[Lind] = kpi*(np.real(limlft - h0)) + kpi*np.tan(partl / 2 * (he - limlft)) / (partl / 2)    
+        Kspr[Lind] = kpi*sec(partl/2*(he-limlft))**2
+        Espr[Lind] = 0.5*kpi*np.real(h0-limlft)**2 + kpi*np.real(h0-limlft)*(limlft-he) - 4*kpi/partl**2*np.log(np.abs(np.cos(partl/2*(limlft-he))))
 
     
     if np.any(Rind):
-        Rspr[Rind] = kpi[Rind]*np.real(limrht-h0[Rind].reshape(-1)) + kpi[Rind]*np.tan(partr/2*(he[Rind].reshape(-1)-limrht))/(partr/2)
-        Kspr[Rind] = kpi[Rind]*sec(partr/2*(he[Rind]-limrht))**2
-        Espr[Rind] = 0.5*kpi[Rind]*np.real(limrht-h0[Rind])**2 + kpi[Rind]*np.real(limrht-h0[Rind])*(he[Rind]-limrht) - 4*kpi[Rind]/partr**2*np.log(np.abs(np.cos(partr/2*(he[Rind]-limrht))))
+        Rspr[Rind] = kpi*np.real(limrht-h0[Rind].reshape(-1)) + kpi*np.tan(partr/2*(he[Rind].reshape(-1)-limrht))/(partr/2)
+        Kspr[Rind] = kpi*sec(partr/2*(he[Rind]-limrht))**2
+        Espr[Rind] = 0.5*kpi*np.real(limrht-h0[Rind])**2 + kpi*np.real(limrht-h0[Rind])*(he[Rind]-limrht) - 4*kpi/partr**2*np.log(np.abs(np.cos(partr/2*(he[Rind]-limrht))))
 
     if np.any(Mind):
         # Rspr[Mind] = kpi[Mind]*np.real(he[Mind]-h0[Mind])
