@@ -11,7 +11,7 @@
 %% =========== KRESLING MULTI-STABLE FOLDING =========================== %%
 clear all; close all; clc;
 %% Define geomtry and material
-N = 8; h = 1; lyr = 6; phi = 2*pi/8;
+N = 8; h = 1; lyr = 2; phi = 2*pi/8;
 % N-gon prism; height of each layer; number of inter-layer planes; twisting
 % angle of the prism in each layer
 MaxIcr = 180; blam = 0.032; 

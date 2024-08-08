@@ -16,7 +16,7 @@ from GraphPostProcess import GraphPostProcess
 # Define geometry and material
 N = 8
 h = 1
-lyr = 6
+lyr = 2
 phi = 2 * np.pi / 8
 
 MaxIcr = 180
@@ -78,6 +78,8 @@ STAT = PostProcess(Data, truss, angles)
 
 GraphPostProcess(U_his, STAT)
 
+# The function `PlotFinalConfig(U_his, truss, angles, LF_his)` is used to plot the final configuration
+# of the structure after the simulation has been completed. It takes the following inputs:
 PlotFinalConfig(U_his, truss, angles, LF_his)
 
 
@@ -110,3 +112,21 @@ plt.show()
 # plt.view(117, 18)
 # plt.rotate3d()
 
+# from scipy.io import savemat
+# variables = {
+#     'NODE': Node,
+#     'PANEL': Panel,
+#     'BDRY': BDRY
+# }
+# # Save the variables to a .mat file
+# savemat('variables.mat', variables)
+
+
+# from scipy.io import savemat
+# variables = {
+#     'U_his2': U_his,
+#     'LF_his2': LF_his,
+#     'Data2': Data
+# }
+# # Save the variables to a .mat file
+# savemat('variables.mat', variables)

@@ -72,6 +72,9 @@ def PrepareData(Node, Panel, Supp, Load, BarCM, RotSpring, kpf, kpb, Abar):
         pf0[i], _, _ = FoldKe(Node, Fold[i,:], kpf, 0)
 
     pb0 = np.zeros(Bend.shape[0])
+
+    if pb0.size == 0:
+        pb0 = []
     for i in range(Bend.shape[0]):
         pb0[i], _, _ = FoldKe(Node, Bend[i, :], kpb, 0)
 
@@ -101,7 +104,7 @@ def PrepareData(Node, Panel, Supp, Load, BarCM, RotSpring, kpf, kpb, Abar):
         'kpb': np.full(Bend.shape[0],kpb),
         'pf0': pf0,
         # 'pb0': np.float64(np.pi),
-        'pb0': pb0*0+np.pi,   # OJOOOO 
+        'pb0': np.array(pb0)*0+np.pi,   # OJOOOO 
         'Panel': Panel
     }
 

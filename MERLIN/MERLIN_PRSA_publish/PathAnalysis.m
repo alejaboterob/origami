@@ -22,8 +22,8 @@ while icrm<MaxIcr
         % stiffness matrix:
         % 'GlobalK_fast_ver': speed-optimized version;
         % 'GlobalK_edu_ver': easy-to-read educational version.
-        % [IF,K] = GlobalK_fast_ver(U,Node,truss,angles);
-        [IF,K] = GlobalK_edu_ver(U,Node,truss,angles);
+        [IF,K] = GlobalK_fast_ver(U,Node,truss,angles);
+        % [IF,K] = GlobalK_edu_ver(U,Node,truss,angles);
         R = lmd*F-IF;   MRS = [F,R];
         MUL(FreeDofs,:) = K(FreeDofs,FreeDofs)\MRS(FreeDofs,:);
         dUp = MUL(:,1); dUr = MUL(:,2);

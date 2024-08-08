@@ -4,7 +4,7 @@ from GlobalK_edu_ver import GlobalK_edu_ver
 from nlsmgd import nlsmgd
 from GetData import GetData
 
-
+from GlobalK_fast_ver import GlobalK_fast_ver
 from scipy.io import loadmat
 
 def PathAnalysis(truss, angles, F, b_lambda, MaxIcr):
@@ -74,7 +74,8 @@ def PathAnalysis(truss, angles, F, b_lambda, MaxIcr):
             itera += 1
 
 
-            IF, K = GlobalK_edu_ver(U, Node, truss, angles)
+            # IF, K = GlobalK_edu_ver(U, Node, truss, angles)
+            IF, K = GlobalK_fast_ver(U, Node, truss, angles)
 
 
             R = lmd * F - IF.T

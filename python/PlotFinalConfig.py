@@ -73,11 +73,13 @@ def PlotFinalConfig(U_his, truss, angles, LF_his=None):
     plot_panels(Nodew, Panel, ax=ax, **plot_kwargs)    
     plt.xticks([])
     plt.yticks([])
-    ax.set_zticks([])
-    ax.set(xticklabels=[], yticklabels=[], zticklabels=[])
     ax.auto_scale_xyz([mins[0], maxs[0]],
-                    [mins[1], maxs[1]],
-                    [mins[2], maxs[2]])    
+                [mins[1], maxs[1]],
+                [mins[2], maxs[2]])    
+    ax.set_zticks([])
+    ax.axis('equal')
+    ax.set(xticklabels=[], yticklabels=[], zticklabels=[])
+
 
     plt.show(block = False)
 
