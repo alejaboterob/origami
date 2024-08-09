@@ -74,8 +74,8 @@ def PathAnalysis(truss, angles, F, b_lambda, MaxIcr):
             itera += 1
 
 
-            # IF, K = GlobalK_edu_ver(U, Node, truss, angles)
-            IF, K = GlobalK_fast_ver(U, Node, truss, angles)
+            IF, K = GlobalK_edu_ver(U, Node, truss, angles)
+            # IF, K = GlobalK_fast_ver(U, Node, truss, angles)
 
 
             R = lmd * F - IF.T

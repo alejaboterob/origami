@@ -13,6 +13,8 @@ from displacement import displacement
 from GraphPostProcess import GraphPostProcess
 from PlotFinalConfig import PlotFinalConfig
 
+from ConfigYoshimura2 import ConfigYoshimura
+
 from PostProcess import PostProcess
 
 from matplotlib import pyplot as plt
@@ -22,116 +24,22 @@ from matplotlib import pyplot as plt
 
 # Define geometry and material parameters
 
-alpha = np.pi/4 # Plane angle between the valley and mountain folds in the crease scheme  The plane angle α must be 0 < α ≤ π/4 for the pattern to be folded
-l = 1  # Length of the long side of the isosceles triangle
-n = 1  # Number of complete valley folds in the crease scheme
-m = 1  # Number of repetitions of the basic crease scheme
-
-
-
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-
-def yoshimura_pattern(n_units, n_layers, L, beta):
-    nodes = []
-    
-    for i in range(n_layers + 1):
-        for j in range(n_units + 1):
-            x = j * L
-            y = i * L * np.cos(beta)
-            z = (i % 2) * L * np.sin(beta) * (1 if j % 2 == 0 else -1)
-            nodes.append((x, y, z))
-    
-    return nodes
-
-def yoshimura_panels(n_units, n_layers):
-    panels = []
-    
-    for i in range(n_layers):
-        for j in range(n_units):
-            current = i * (n_units + 1) + j
-            next_row = (i + 1) * (n_units + 1) + j
-            
-            if i % 2 == 0:
-                if j % 2 == 0:
-                    panels.append([current, current + 1, next_row + 1])
-                    panels.append([current, next_row + 1, next_row])
-                else:
-                    panels.append([current, current + 1, next_row])
-                    panels.append([current + 1, next_row + 1, next_row])
-            else:
-                if j % 2 == 0:
-                    panels.append([current, current + 1, next_row])
-                    panels.append([current + 1, next_row + 1, next_row])
-                else:
-                    panels.append([current, current + 1, next_row + 1])
-                    panels.append([current, next_row + 1, next_row])
-    
-    return panels
-
-def plot_yoshimura(nodes, panels):
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    xs, ys, zs = zip(*nodes)
-    ax.scatter(xs, ys, zs, c='r', marker='o')
-
-    for i, (x, y, z) in enumerate(nodes):
-        ax.text(x, y, z, f'{i+1}', color='blue')
-    
-    for panel in panels:
-        verts = [nodes[panel[0]], nodes[panel[1]], nodes[panel[2]]]
-        tri = Poly3DCollection([verts], color='cyan', edgecolor='k')
-        ax.add_collection3d(tri)
-
-    ax.set_xlabel('X Label')
-    ax.set_ylabel('Y Label')
-    ax.set_zlabel('Z Label')
-
-    plt.show()
-
-def fold_pattern(nodes, fold_amount):
-    folded_nodes = []
-    for (x, y, z) in nodes:
-        z_folded = z * fold_amount
-        folded_nodes.append((x, y, z_folded))
-    return folded_nodes
 
 # Example usage
-n_units = 6      # Number of units horizontally
-n_layers = 4     # Number of layers vertically
-L = 100          # Length of each unit
-beta = 30  *np.pi/180  # Beta angle in degrees
-fold_amount = 0.5  # Folding amount factor (0: flat, 1: fully folded)
+sec_hor = 8  # Number of sections around the circumference
+sec_vert = 2  # Number of sections along the height
+radius = 1  # Radius of the cylinder
+height = 2  # Height of the cylinder
+fdang = 0.0  # Folding angle (for future use or deformation)
 
-Node = np.array(yoshimura_pattern(n_units, n_layers, L, beta))
-Panel = np.array(yoshimura_panels(n_units, n_layers))
-folded_nodes = fold_pattern(Node, fold_amount)
-
-print("Node coordinates for Yoshimura pattern:")
-for i, (x, y, z) in enumerate(Node):
-    print(f"Node {i+1}: x = {x:.2f}, y = {y:.2f}, z = {z:.2f}")
-
-plot_yoshimura(folded_nodes, Panel)
+Node, Panel, BDRY = ConfigYoshimura(sec_hor, sec_vert, radius, height, fdang)
 
 
+# Call ConfigMiura to get Node and Panel arrays
+# Node, Panel, BDRY = ConfigMiura(alpha, n, l, m)
 
-
-
-
-sec_hor = 5  # Number of unit cells in horizontal direction
-sec_vert = 5  # Number of unit cells in vertical direction
-# Geometry of the Miura: a, b are the edge lengths of each parallelogram
-# panel; fdang controls the folding angle; theta is the panel angle
-theta = 60
-a = 2
-b = 2
-fdang = 15
-
-# Maximum increment number & initial load factor
-MaxIcr = 60
-blam = 0.5
+# Node, Panel, BDRY = ConfigMiura(sec_hor, sec_vert, theta, a, b, fdang)
+# Node, Panel, _ = ConfigMiura(sec_hor, sec_vert, theta, a, b, fdang)
 
 # Material-related parameters: Kf-folding stiffness; Kb-bending stiffness;
 # E0-stretching stiffness; Abar-bar area (assume uniform)
@@ -144,31 +52,42 @@ Abar = 1e-1
 limlft = 0.1
 limrht = 360 - 0.1
 
-# Call ConfigMiura to get Node and Panel arrays
-# Node, Panel, BDRY = ConfigMiura(alpha, n, l, m)
-
-# Node, Panel, BDRY = ConfigMiura(sec_hor, sec_vert, theta, a, b, fdang)
-# Node, Panel, _ = ConfigMiura(sec_hor, sec_vert, theta, a, b, fdang)
-
 # Define material constitutive and rotational spring functions
 BarMater = lambda Ex: Ogden(Ex, E0)  # Define bar material constitutive
 RotSpring = lambda he, h0, kpi, L0: EnhancedLinear(he, h0, kpi, L0, limlft, limrht)
 
-# Set up boundary conditions
+# Maximum increment number & initial load factor
+MaxIcr = 60
+blam = 0.5
+
+# Node indices on the left side (along x-axis)
 leftx = np.arange(0, (2 * sec_vert + 1))
+
+# Node indices on the left side (along z-axis)
 leftz = np.arange(0, (2 * sec_vert + 1) + 1, 2)
+
+# Node indices on the right side (along z-axis)
 rightz = np.arange(0, (2 * sec_vert + 1) + 1, 2) + (2 * sec_vert + 1) * (2 * sec_hor)
+
+# Node indices on the right side (along x-axis)
 rightxp = np.arange(1, (2 * sec_vert + 1), 2) + (2 * sec_vert + 1) * (2 * sec_hor)
 
-Supp = np.array([[0, 0, 1, 0],
-                 *zip(leftx, np.ones_like(leftx), np.zeros_like(leftx), np.zeros_like(leftx)),
-                 *zip(leftz, np.zeros_like(leftz), np.zeros_like(leftz), np.ones_like(leftz)),
-                 *zip(rightz, np.zeros_like(rightz), np.zeros_like(rightz), np.ones_like(rightz))])
+# Set up the support conditions
+Supp = np.array([[0, 0, 1, 0],  # Example of a fixed node (node 0, z direction constrained)
+                    *zip(leftx, np.ones_like(leftx), np.zeros_like(leftx), np.zeros_like(leftx)),
+                    *zip(leftz, np.zeros_like(leftz), np.zeros_like(leftz), np.ones_like(leftz)),
+                    *zip(rightz, np.zeros_like(rightz), np.zeros_like(rightz), np.ones_like(rightz))])
 
-indp = np.arange(0, (sec_vert * 2 + 1)) + (sec_vert * 2 + 1) * (sec_hor * 2)   # Revisar -1 
-ff = -np.ones(len(indp))
-Load = np.column_stack((indp, ff, np.zeros_like(indp), np.zeros_like(indp)))
-indp = Load[:, 0]
+
+# indp = np.arange(0, (sec_vert * 2 + 1)) + (sec_vert * 2 + 1) * (sec_hor * 2)   # Revisar -1 
+# ff = -np.ones(len(indp))
+# Load = np.column_stack((indp, ff, np.zeros_like(indp), np.zeros_like(indp)))
+# indp = Load[:, 0]
+
+Load = np.array([[0, 0, 0, 1],
+                [1, 0, 0, 1],
+                [2, 0, 0, 1],
+                [3, 0, 0, 1]])
 
 # Perform analysis
 truss, angles, F = PrepareData(Node, Panel, Supp, Load, BarMater, RotSpring, Kf, Kb, Abar)
@@ -181,6 +100,9 @@ LF_his = np.real(LF_his)
 print(truss)
 print(angles)
 print(F)
+
+indp = Load[:, 0]
+
 
 # Visualize simulation
 instdof = -(indp[0] * 3 - 2)
