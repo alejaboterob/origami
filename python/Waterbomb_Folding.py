@@ -3,7 +3,6 @@
 
 
 import numpy as np
-from ConfigMiura import ConfigMiura
 from Ogden import Ogden
 from PrepareData import PrepareData
 from PathAnalysis import PathAnalysis
@@ -13,7 +12,7 @@ from displacement import displacement
 from GraphPostProcess import GraphPostProcess
 from PlotFinalConfig import PlotFinalConfig
 
-from ConfigYoshimura import ConfigYoshimura
+from ConfigWaterbomb import ConfigWaterbomb
 
 from PostProcess import PostProcess
 
@@ -26,13 +25,15 @@ from matplotlib import pyplot as plt
 
 
 # Example usage
-sec_hor = 6  # Number of sections around the circumference
-sec_vert = 8  # Number of sections along the height
-radius = 1  # Radius of the cylinder
-height = 1  # Height of the pattern
-fdang = 0.0  # Folding angle (for future use or deformation)
+# sec_hor = 6  # Number of sections around the circumference
+# sec_vert = 8  # Number of sections along the height
+# radius = 1  # Radius of the cylinder
+# height = 1  # Height of the pattern
+# fdang = 0.0  # Folding angle (for future use or deformation)
 
-Node, Panel, Node_idx = ConfigYoshimura(sec_hor, sec_vert, radius, height, fdang)
+# file_path = r"C:\Users\mboter45\Downloads\waterbomb_10PercentFolded.fold"
+file_path = r"C:\Users\mboter45\Downloads\reschTriTessellation _ 20PercentFolded.fold"
+Nodes, Panels, BDRY = ConfigWaterbomb(file_path)
 
 
 # Call ConfigMiura to get Node and Panel arrays
@@ -56,45 +57,25 @@ limrht = 360 - 0.1
 BarMater = lambda Ex: Ogden(Ex, E0)  # Define bar material constitutive
 RotSpring = lambda he, h0, kpi, L0: EnhancedLinear(he, h0, kpi, L0, limlft, limrht)
 
-# Maximum increment number & initial load factor
-MaxIcr = 60
-blam = 0.5
-
-# Node indices on the left side (along x-axis)
-leftx = np.arange(0, (2 * sec_vert + 1))
-
-# Node indices on the left side (along z-axis)
-leftz = np.arange(0, (2 * sec_vert + 1) + 1, 2)
-
-# Node indices on the right side (along z-axis)
-rightz = np.arange(0, (2 * sec_vert + 1) + 1, 2) + (2 * sec_vert + 1) * (2 * sec_hor)
-
-# Node indices on the right side (along x-axis)
-rightxp = np.arange(1, (2 * sec_vert + 1), 2) + (2 * sec_vert + 1) * (2 * sec_hor)
-
-# Set up the support conditions
-# Supp = np.array([[0, 0, 1, 0],  # Example of a fixed node (node 0, z direction constrained)
-#                     *zip(leftx, np.ones_like(leftx), np.zeros_like(leftx), np.zeros_like(leftx)),
-#                     *zip(leftz, np.zeros_like(leftz), np.zeros_like(leftz), np.ones_like(leftz)),
-#                     *zip(rightz, np.zeros_like(rightz), np.zeros_like(rightz), np.ones_like(rightz))])
-
-Supp = np.vstack((Node_idx[0, :].T, np.ones_like(Node_idx[0, :]).T, np.ones_like(Node_idx[0, :]).T, np.ones_like(Node_idx[0, :]).T)).T
+side = np.array([0,10,124,4,6,90,8,3])
+Supp = np.vstack((side.T, np.ones_like(side), np.ones_like(side), np.ones_like(side))).T
 
 # indp = np.arange(0, (sec_vert * 2 + 1)) + (sec_vert * 2 + 1) * (sec_hor * 2)   # Revisar -1 
 # ff = -np.ones(len(indp))
 # Load = np.column_stack((indp, ff, np.zeros_like(indp), np.zeros_like(indp)))
 # indp = Load[:, 0]
-F = -1500
-Load = np.vstack((Node_idx[sec_vert, :].T, np.zeros_like(Node_idx[0, :]).T, np.zeros_like(Node_idx[0, :]).T, np.ones_like(Node_idx[0, :]).T*F)).T
+side2 = np.array([1,11,145,5,7,111,9,2])
+Load = np.vstack((side2.T, np.zeros_like(side2).T, -np.ones_like(side2).T, np.zeros_like(side2).T)).T
 
 
 # Load = np.array([[0, 0, 0, 1],
 #                 [1, 0, 0, 1],
 #                 [2, 0, 0, 1],
 #                 [3, 0, 0, 1]])
-
+blam = 0.5
+MaxIcr = 60
 # Perform analysis
-truss, angles, F = PrepareData(Node, Panel, Supp, Load, BarMater, RotSpring, Kf, Kb, Abar)
+truss, angles, F = PrepareData(Nodes, Panels, Supp, Load, BarMater, RotSpring, Kf, Kb, Abar)
 truss['U0'] = np.zeros(3 * truss['Node'].shape[0])
 
 U_his, LF_his, Data = PathAnalysis(truss, angles, F, blam, MaxIcr)

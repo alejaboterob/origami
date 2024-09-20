@@ -1,7 +1,7 @@
 # This Python script is a simulation and analysis program for Miura folding, a type of origami folding
-# pattern. Here is a breakdown of what the script does:
+# pattern
 
-
+ 
 import numpy as np
 from ConfigMiura import ConfigMiura
 from Ogden import Ogden

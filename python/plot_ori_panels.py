@@ -52,7 +52,7 @@ def save_gif_PIL(outfile, files, fps=5, loop=0):
                  save_all=True, duration=int(1000/fps), loop=loop)
 
 
-def plot_panels(nodes, panels, ax=None, **plot_kwargs):
+def plot_panels(nodes, panels, ax=None, plot_nodes=False, **plot_kwargs):
     '''The function `plot_panels` plots origami panels in 3D as a 3D collection of polygons using
     Matplotlib.
     
@@ -109,6 +109,25 @@ def plot_panels(nodes, panels, ax=None, **plot_kwargs):
                                        lightsource=ls,
                                        **plot_kwargs)
     ax.add_collection3d(poly_collection)
+
+
+    if plot_nodes==True:
+        # Extract coordinates
+        X = [n[0] for n in nodes]
+        Y = [n[1] for n in nodes]
+        Z = [n[2] for n in nodes]
+        
+        # Plot the nodes
+        ax.scatter(X, Y, Z, c='blue', marker='o')
+        
+        # Annotate each node with its index
+        for i, (x, y, z) in enumerate(nodes):
+            ax.text(x, y, z, '%d' % i, size=10, zorder=1, color='red')
+        
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+        ax.set_box_aspect([1,1,2])
     
     
     return ax

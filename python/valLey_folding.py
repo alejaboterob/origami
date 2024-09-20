@@ -83,7 +83,7 @@ VisualFold(U_his, truss, angles, LF_his)
 
 # Visualize displacement
 instdof = -(indp[0]*3)
-displacement(U_his, truss, angles, instdof, 0.1, LF_his)
+displacement(U_his, truss, angles, instdof, LF_his)
 
  
 # Plot stored energy vs. pseudo time

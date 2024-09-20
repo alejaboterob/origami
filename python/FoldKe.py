@@ -1,8 +1,5 @@
 import numpy as np
 
-def icross(a, b):
-    return np.cross(a, b, axis=0)
-
 def FoldKe(Cood, List, kpi, h0=None, L0=None, CM=None):
     '''The function `FoldKe` calculates certain geometric properties and returns relevant values based on
     the input parameters.
@@ -39,8 +36,8 @@ def FoldKe(Cood, List, kpi, h0=None, L0=None, CM=None):
     rkj = (Cood[List[1]] - Cood[List[0]]).T
     rij = (Cood[List[2]] - Cood[List[0]]).T
     rkl = (Cood[List[1]] - Cood[List[3]]).T
-    rmj = icross(rij, rkj)
-    rnk = icross(rkj, rkl)
+    rmj = np.cross(rij, rkj)
+    rnk = np.cross(rkj, rkl)
     sgn = ((abs(np.dot(rnk.T, rij)) > 1e-8) * np.sign(np.dot(rnk.T, rij)) + 
            (abs(np.dot(rnk.T, rij)) <= 1e-8) * 1)
     he = np.real(np.arccos(np.dot(rmj.T, rnk) / (np.linalg.norm(rmj) * np.linalg.norm(rnk))))

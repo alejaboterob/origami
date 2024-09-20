@@ -46,8 +46,6 @@ Panel = [[0, 1, 3, 2],
         [1, 3, 11, 10],
         [3, 7, 11]]
 
-
-
 BDRY = np.array([[8, 4],
                 [4, 5],
                 [5, 10],
@@ -69,7 +67,6 @@ Abar = 1e-1
 limlft = 0.1
 limrht = 180-0.1
 # Left and right limits for the linear range of rotational stiffness
-
 
 # Define material constitutive and rotational spring functions
 BarMater = lambda Ex: Ogden(Ex, E0)  # Define bar material constitutive

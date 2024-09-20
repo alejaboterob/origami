@@ -16,7 +16,7 @@ from GraphPostProcess import GraphPostProcess
 # Define geometry and material
 N = 8
 h = 1
-lyr = 2
+lyr = 4
 phi = 2 * np.pi / 8
 
 MaxIcr = 180

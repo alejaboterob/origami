@@ -7,7 +7,7 @@ from plot_ori_panels import plot_panels, save_gif_PIL
 
 files = []
 
-def displacement(U_his, truss, angles, instdof, pausetime, LF_his=None):
+def displacement(U_his, truss, angles, instdof, LF_his):
     '''The `displacement` function visualizes the displacement and load factor history of a truss structure
     over time.
 
@@ -52,8 +52,6 @@ def displacement(U_his, truss, angles, instdof, pausetime, LF_his=None):
         plt.plot(dsp[i], LF_his[i], 'o', color='#028090', linewidth=2)
         plt.xlabel('displacement', fontsize=14)
         plt.ylabel('load factor', fontsize=14)
-        plt.pause(pausetime)
-
 
     plt.show(block = False)
     # save_gif_PIL("ori_anim.gif", files, fps=5, loop=0)
